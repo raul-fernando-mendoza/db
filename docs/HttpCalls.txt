@@ -1,0 +1,48 @@
+http://localhost:8080/db/UserLogin.action?schema=24swim&user.email=raul.mendoza@excite.com&user.password=mendozra
+http://localhost:8080/db/UserLogin.action?schema=24swim&user.email=admin&user.password=mendozra
+
+http://localhost:8080/db/EntityCreate.action?schema=24swim&entity.entityName=htmlpage&entity.description=pages of the web site&entity.isMultiple=0
+
+http://localhost:8080/db/EntityCreate.action?schema=24swim&entity.entityName=htmlcomponent&entity.description=component of a page&entity.isMultiple=1&entity.parentEntityID=16 //35
+http://localhost:8080/db/PropertyCreate.action?schema=24swim&entityName=htmlcomponent&propertyName=componentClass&dataTypeName=VARCHAR&size=50&label=type of component&
+http://localhost:8080/db/PropertyDrop.action?schema=24swim&entityName=htmlcomponent&propertyName=componentClass
+
+http://localhost:8080/db/EntityCreate.action?schema=24swim&entity.entityName=htmltitle&entity.description=website title&entity.isMultiple=1&entity.parentEntityID=35
+http://localhost:8080/db/PropertyCreate.action?schema=24swim&entity.entityName=htmltitle&property.propertyName=label&property.IsPk=0&property.dataTypeID=2&property.label=Title&property.size=100
+
+http://localhost:8080/db/EntityCreate.action?schema=24swim&entity.entityName=htmlmenu&entity.description=menu of a page&entity.isMultiple=1&entity.parentEntityID=35 //37
+
+http://localhost:8080/db/EntityCreate.action?schema=24swim&entity.entityName=htmlmenuitem&entity.description=menuitem of a menu&entity.isMultiple=1&entity.parentEntityID=37 
+http://localhost:8080/db/PropertyCreate.action?schema=24swim&entity.entityName=htmlmenuitem&property.propertyName=ind&property.IsPk=0&property.dataTypeID=1&property.label=ind
+http://localhost:8080/db/PropertyCreate.action?schema=24swim&entity.entityName=htmlmenuitem&property.propertyName=label&property.IsPk=0&property.dataTypeID=2&property.label=Title&property.size=100
+http://localhost:8080/db/PropertyCreate.action?schema=24swim&entity.entityName=htmlmenuitem&property.propertyName=dataicon&property.IsPk=0&property.dataTypeID=2&property.label=data-icon&property.size=100
+http://localhost:8080/db/PropertyCreate.action?schema=24swim&entity.entityName=htmlmenuitem&property.propertyName=href&property.IsPk=0&property.dataTypeID=2&property.label=data-icon&property.size=200
+
+
+http://localhost:8080/db/PropertyCreate.action?schema=24swim&entity.entityName=htmlpage&property.propertyName=htmlpage_name&property.IsPk=1&property.size=100&property.dataTypeID=2&property.label=Page name&
+
+http://localhost:8080/db/EntityCreate.action?schema=24swim&entityName=htmltext&entity.description=html text content of a page&entity.isMultiple=1&parentEntityName=htmlcomponent
+http://localhost:8080/db/EntityDrop.action?schema=24swim&entityName=htmltext
+
+
+http://localhost:8080/db/EntityDrop.action?schema=24swim&entity.entityName=htmlpage
+http://localhost:8080/db/EntityDrop.action?schema=24swim&entity.entityName=htmlcomponent
+http://localhost:8080/db/EntityDrop.action?schema=24swim&entity.entityName=htmltitle
+http://localhost:8080/db/EntityDrop.action?schema=24swim&entity.entityName=htmlmenu
+http://localhost:8080/db/EntityDrop.action?schema=24swim&entity.entityName=htmlmenuitem
+
+http://localhost:8080/db/ImageRead.action?schema=24swim&entityName=htmltitle&id=1&propertyName=icon&width=100
+
+
+http://localhost:8080/db/PropertyDrop.action?schema=24swim&entity.entityName=htmlcomponent&property.propertyName=ind
+http://localhost:8080/db/PropertyCreate.action?schema=24swim&entityName=htmltext&propertyName=html&dataTypeName=VARCHAR&size=4000&label=html text&
+
+http://localhost:8080/db/24swim/htmlcomponent&property.propertyName=ind
+
+http://localhost:8080/db/FileUploadInitialize.action?schema=24swim
+http://localhost:8080/db/FileUpdateInitialize.action?schema=24swim
+
+http://localhost:8080/db/ImageReadInitialize.action?schema=24swim&entityName=htmltitle&
+http://localhost:8080/db/24hour/htmlTitle/new.action
+
+

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c] %m%n"/>
+        </layout>
+    </appender>
+
+  <!-- LOCAL SERVER Appender -->	
+  <appender name="APPLOGFILE" class="org.apache.log4j.RollingFileAppender">
+    <param name="File"   value="C:/projects/apps/apache-tomcat-8.0.20/webapps/db/logs/db.log" />
+    <param name="Append" value="true" />
+    <param name="MaxFileSize" value="3000KB" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%L %C %M %d{ABSOLUTE} %5p %C{1}:%L - %m%n"/>
+    </layout>
+  </appender>
+
+    <logger name="com.sl">
+        <level value="debug"/> 
+    </logger>
+
+	<logger name="com.opensymphony.xwork2">
+        <level value="error"/>
+    </logger>
+
+	<logger name="com.opensymphony.xwork2.conversion.impl.XWorkConverter">
+        <level value="error"/>
+    </logger>
+
+	<logger name="com.sl.buscaenmonterrey.IntegerConverter">
+        <level value="error"/>
+    </logger>
+	<logger name="com.sl.buscaenmonterrey.DoubleConverter">
+        <level value="error"/>
+    </logger>
+
+	<logger name="freemarker">
+        <level value="error"/>
+    </logger>
+
+    <root>
+        <priority value="error"/>
+        <appender-ref ref="CONSOLE"/>
+	    <appender-ref ref="APPLOGFILE"/>
+    </root>
+</log4j:configuration>

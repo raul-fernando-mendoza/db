@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+  <constant name="struts.enable.DynamicMethodInvocation" value="false"/>
+  <constant name="struts.devMode" value="true"/>
+  <constant name="struts.patternMatcher" value="namedVariable"/>
+	<constant name="struts.enable.SlashesInActionNames" value="true"/>
+	<constant name="struts.mapper.alwaysSelectFullNamespace" value="false"/> 
+
+  <package name="public" namespace="/" extends="struts-default">
+
+        
+		<interceptors>
+			<interceptor name="cachingHeadersInterceptor" class="com.sl.db.CachingHeadersInterceptor" />
+			
+			<interceptor-stack name="defaultSecurityStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="cachingHeadersInterceptor" />
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="defaultSecurityStack" />  
+		
+  	    <global-results>
+            <result name="input">/WEB-INF/jsp/ErrorJSON.jsp</result>
+        </global-results>    
+		
+		
+        <action name="UserLogin" class="com.sl.db.UserLoginAction">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result >/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>
+        
+
+        
+        <action name="ImageRead" class="com.sl.db.ImageReadAction">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result >/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>
+        
+
+        <action name="DataRead" class="com.sl.db.DataReadAction">
+        	<param name="Schema">{1}</param>
+        	<param name="EntityName">{2}</param>
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result>/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>      
+
+
+        <action name="{schema}/{entityName}/new" class="com.sl.db.DataInsertAction" method="Initialize">
+        	<result name="input">/WEB-INF/jsp/DataInsert.jsp</result>
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result>/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>    
+
+        <action name="{schema}/{entityName}/insert" class="com.sl.db.DataInsertAction" >
+        	<result name="input">/WEB-INF/jsp/DataInsert.jsp</result>
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result>/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>    
+
+
+        <action name="{schema}/{entityName}/{id}" class="com.sl.db.DataReadAction">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result>/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>      
+
+        <action name="{schema}/{entityName}" class="com.sl.db.DataReadAction">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result>/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>  
+        
+  </package>
+
+  <package name="signed" namespace="/" extends="struts-default">
+  
+		<interceptors>
+			
+			<interceptor name="cachingHeadersInterceptor" class="com.sl.db.CachingHeadersInterceptor" />
+			<interceptor name="LoginInterceptor"          class="com.sl.db.LoginInterceptor" />
+			
+			<interceptor-stack name="defaultSecurityStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="LoginInterceptor" />
+				<interceptor-ref name="cachingHeadersInterceptor" />
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="defaultSecurityStack" />  
+
+  	    <global-results>
+            <result name="loginError">/WEB-INF/jsp/LoginError.jsp</result>
+            <result name="input">/WEB-INF/jsp/ErrorJSON.jsp</result>
+        </global-results>    
+
+
+        <action name="UserLogout" class="com.sl.db.UserLogoutAction">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result >/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>
+        
+        
+        <action name="FileUploadInitialize" class="com.sl.db.FileUploadAction" method="Initialize">
+            <result name="input">/WEB-INF/jsp/FileUpload.jsp</result>
+            <result name="error">/WEB-INF/jsp/Error.jsp</result>
+            <result>/WEB-INF/jsp/DataJSON.jsp</result>
+        </action> 
+        
+        <action name="FileUpload" class="com.sl.db.FileUploadAction" >
+            <result name="input">/WEB-INF/jsp/FileUpload.jsp</result>
+            <result name="error">/WEB-INF/jsp/Error.jsp</result>
+            <result>/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>
+        
+		<action name="FileUpdateInitialize" class="com.sl.db.FileUpdateAction" method="Initialize">
+            <result name="input">/WEB-INF/jsp/FileUpdate.jsp</result>
+            <result name="error">/WEB-INF/jsp/Error.jsp</result>
+            <result>/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>          
+
+        <action name="FileUpdate" class="com.sl.db.FileUpdateAction" >
+            <result name="input">/WEB-INF/jsp/FileUpdate.jsp</result>
+            <result name="error">/WEB-INF/jsp/Error.jsp</result>
+            <result>/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>         
+                
+       <!-- 
+        <action name="EntityInsert" class="com.sl.db.EntityInsertAction">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result >/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>
+        <action name="EntityUpdate" class="com.sl.db.EntityUpdateAction">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result >/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>        
+        <action name="EntityDelete" class="com.sl.db.EntityDeleteAction">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result >/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>
+        -->        
+  </package>
+
+  
+  <package name="admin" namespace="/" extends="struts-default">
+
+		<interceptors>
+			
+			<interceptor name="cachingHeadersInterceptor" class="com.sl.db.CachingHeadersInterceptor" />
+			<interceptor name="LoginInterceptor"          class="com.sl.db.LoginInterceptor" />
+			<interceptor name="LoginAdminInterceptor"     class="com.sl.db.LoginAdminInterceptor" />
+			
+			<interceptor-stack name="defaultSecurityStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="LoginInterceptor" />
+				<interceptor-ref name="cachingHeadersInterceptor" />
+				<interceptor-ref name="LoginAdminInterceptor" />
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="defaultSecurityStack" /> 
+
+  	    <global-results>
+            <result name="loginError">/WEB-INF/jsp/LoginError.jsp</result>
+            <result name="LoginAdminError">/WEB-INF/jsp/LoginAdminError.jsp</result>
+            <result name="input">/WEB-INF/jsp/ErrorJSON.jsp</result>
+        </global-results>    
+
+        <action name="*Create" class="com.sl.db.{1}CreateAction">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result >/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>
+        <action name="*Drop" class="com.sl.db.{1}DropAction">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result >/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>        
+  </package>
+</struts>
+  
+
