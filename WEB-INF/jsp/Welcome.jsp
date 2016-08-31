@@ -6,8 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 	
 	<meta http-equiv="EXPIRES" content="0"/>
-	<meta name="description" content="Fiesta en monterrey nuevo leon, clases de natacion monterrey nuevo leon, fiestas cedros, natacion cedros" />
-	<meta name="keywords" content="fiesta, clases, natacion, pool, carne asada, relajarse, cumpleaños, fiesta niños." />
+	<meta name="description" content="The web database" />
+	<meta name="keywords" content="web database." />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script type="text/javascript" src="../jquery-2.1.4/jquery-2.1.4.js"></script>
 
@@ -112,8 +112,8 @@
 						<a href="../html/Images.html" rel="external">Imagenes</a> 
 					</li>					
 					<li>
-						<a href="../html/PoolAbout.html" data-role="button" data-icon="phone" data-iconpos="notext" data-inline="true" data-mini="true" rel="external"></a>
-						<a href="../html/PoolAbout.html" rel="external">Contactanos</a> 
+						<a href="../public/LoginInitialize.action" data-role="button" data-icon="user" data-iconpos="notext" data-inline="true" data-mini="true" rel="external"></a>
+						<a href="../public/LoginInitialize.action" rel="external">Login</a> 
 					</li>					
 					
 			    </ul>
