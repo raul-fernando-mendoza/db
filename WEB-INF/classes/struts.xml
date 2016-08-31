@@ -9,7 +9,7 @@
 	<constant name="struts.enable.SlashesInActionNames" value="true"/>
 	<constant name="struts.mapper.alwaysSelectFullNamespace" value="false"/> 
 
-  <package name="public" namespace="/" extends="struts-default">
+  <package name="public" namespace="/public" extends="struts-default">
 
         
 		<interceptors>
@@ -27,6 +27,11 @@
             <result name="input">/WEB-INF/jsp/ErrorJSON.jsp</result>
         </global-results>    
 		
+        <action name="Welcome" class="com.sl.db.BaseAction">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result >/WEB-INF/jsp/Welcome.jsp</result>
+        </action>
+
 		
         <action name="UserLogin" class="com.sl.db.UserLoginAction">
             <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>

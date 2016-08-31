@@ -1,3 +1,1 @@
-<%    response.sendRedirect("/db/About.action"); %> 
-
-
+<%    response.sendRedirect("/db/public/Welcome.action"); %> 

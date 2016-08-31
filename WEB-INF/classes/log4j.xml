@@ -10,7 +10,7 @@
 
   <!-- LOCAL SERVER Appender -->	
   <appender name="APPLOGFILE" class="org.apache.log4j.RollingFileAppender">
-    <param name="File"   value="C:/projects/apps/apache-tomcat-8.0.20/webapps/db/logs/db.log" />
+    <param name="File"   value="C:/projects/webapps/db/logs/db.log" />
     <param name="Append" value="true" />
     <param name="MaxFileSize" value="3000KB" />
     <layout class="org.apache.log4j.PatternLayout">

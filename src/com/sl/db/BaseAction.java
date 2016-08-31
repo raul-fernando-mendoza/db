@@ -5,10 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
-import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -16,7 +13,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.opensymphony.xwork2.TextProvider;
 import com.sl.db.PojoMapper;
 
-public class BaseAction extends com.opensymphony.xwork2.ActionSupport implements TextProvider, ServletRequestAware, SessionAware{
+public class BaseAction extends com.opensymphony.xwork2.ActionSupport implements TextProvider, SessionAware{
 
 	private static Logger m_logger = Logger.getLogger(BaseAction.class.getName());
 	/**
@@ -30,11 +27,7 @@ public class BaseAction extends com.opensymphony.xwork2.ActionSupport implements
 		session = arg0;
 	}
 
-	protected HttpServletRequest httpServletRequest;
-	@Override
-	public void setServletRequest(HttpServletRequest arg0) {
-		httpServletRequest = arg0;
-	}
+
 	
 	public User getCurrentUser(String schema){
 		m_logger.debug("getCurrentUser called");
