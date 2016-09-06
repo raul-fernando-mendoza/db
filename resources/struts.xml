@@ -32,15 +32,24 @@
             <result >/WEB-INF/jsp/Welcome.jsp</result>
         </action>
         
-        <action name="LoginInitialize" class="com.sl.db.BaseAction">
-            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
-            <result >/WEB-INF/jsp/Login.jsp</result>
+        <action name="UserLoginInitialize" class="com.sl.db.UserLoginAction" method="initialize">
+            <result name="input">/WEB-INF/jsp/UserLogin.jsp</result>
         </action>        
 
 		
         <action name="UserLogin" class="com.sl.db.UserLoginAction">
-            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
-            <result >/WEB-INF/jsp/DataJSON.jsp</result>
+            <result name="input">/WEB-INF/jsp/UserLogin.jsp</result>
+            <result name="success" type="redirect">/public/Welcome.action</result>
+        </action>
+        <action name="UserLogout" class="com.sl.db.UserLogoutAction">
+            <result name="success" type="redirect">/public/Welcome.action</result>
+        </action>
+        <action name="UserCreateInitialize" class="com.sl.db.UserCreateAction" method="initialize">
+        	<result>/WEB-INF/jsp/UserCreate.jsp</result>
+        </action>
+        <action name="UserCreate" class="com.sl.db.UserCreateAction" >
+        	<result name="input">/WEB-INF/jsp/UserCreate.jsp</result>
+			<result name="success" type="redirect">/public/Welcome.action</result>
         </action>
         
 

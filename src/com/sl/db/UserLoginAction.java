@@ -11,30 +11,26 @@ public class UserLoginAction extends BaseAction{
 
 	private static Category m_logger = Logger.getLogger(UserLoginAction.class.getName());
 		
-	User user = new User();
 
-	public User getData() {
-		return user;
+	private String email;
+	private String password;
+
+		
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
-	public User getUser() {
-		return user;
+	public String getPassword() {
+		return password;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-
-
-
-	String schema;
 	
-	public String getSchema() {
-		return schema;
-	}
-	public void setSchema(String schema) {
-		this.schema = schema;
-	}
-/*
+	/*
 	public static boolean isValidLoginIdPassword(String email, String password, String schema) throws Exception{
 		boolean resultValue = false;
 		if( null == email || email.length() == 0 ||
@@ -64,40 +60,47 @@ public class UserLoginAction extends BaseAction{
 		return resultValue;
 	}
 */	
+	public String initialize(){
+		email = "";
+		password = "";
+		return INPUT;
+	}
 	public String execute() throws Exception {
-		String returnValue = ERROR;
-		m_logger.debug("validating login and password not empty:" + user.getEmail());
-		if( null == user.getEmail() || user.getEmail().length() == 0 ||
-				null == user.getPassword() || user.getPassword().length() == 0 || 
-				null == schema || schema.length() == 0){
-			session.remove(schema + ".user");
+		String returnValue = INPUT;
+		m_logger.debug("validating login and password not empty:" + email);
+		if( null == email || email.length() == 0 ||
+				null == password || password.isEmpty() == true){
+			session.remove("user");
 			addActionError("user.invalidCredentials");
-			return ERROR;
+			return INPUT;
 		}
 		m_logger.debug("encrypting password");
-		String encryptedPassword = AES.encrypt(user.getPassword());
+		String encryptedPassword = AES.encrypt(password);
+		m_logger.debug("encrypting password:" + encryptedPassword);
 		
-		ArrayList<User> users = UserDAO.getByEmail(schema, user.getEmail()); 
+		ArrayList<User> users = UserDAO.getByEmail(email); 
 		m_logger.debug("users readead :" + users.size());
 		if( users.size() > 0 ){
-			m_logger.debug("user found with loginID:" + user.getEmail() );
+			m_logger.debug("user found with loginID:" + email );
 			User tempUser = users.get(0);
 			m_logger.debug("comparing:" + tempUser.getPassword() + "==" + encryptedPassword );
 			if( tempUser.getPassword().equals(encryptedPassword) ){
 				m_logger.debug("Is a valid password");
-				user = tempUser;
-				session.put(schema + ".user", user);
+				User user = tempUser;
+				session.put("user", user);
 				m_logger.debug("login was successful");
 				returnValue= SUCCESS;
 			}
 			else{
 				m_logger.debug("the user password does not match or location is incorrect");
 				addActionError("user.incorrectPassword");
+				returnValue=INPUT;
 			}
 		}
 		else{
-			m_logger.debug("users with loginID:" + user.getEmail() + "has not been found");
+			m_logger.debug("users with loginID:" + email + "has not been found");
 			addActionError("user.notfound");
+			returnValue=INPUT;
 		}		
 		return returnValue;
 	}

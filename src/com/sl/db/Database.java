@@ -23,8 +23,8 @@ public class Database {
 	
 	
 	public static Connection getConnection() throws Exception{
-		url = "jdbc:mysql://localhost/mendozra_buscaenmonterrey";
-		userid = "mendozra_admin";
+		url = "jdbc:mysql://localhost/db";
+		userid = "webapp";
 		password = "mendozra";		
 		if( null == m_conn  || !m_conn.isValid(1) ){
 			m_logger.debug("getConnection called");

@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html> 
 <html ng-app="websiteApp">
 <head>
@@ -17,80 +18,34 @@
 	<script type="text/javascript" src="../jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
 	
-    <style>
-
-	html,
-	body {
-	  min-height: 100%;
-	  /*background-color: yellow;*/
-	}
-    
-	#LoginPage{
-		position: relative;
-		padding: 0px;
-		overflow-y: visible;
-		min-height: 100%;
-		/*background: pink;*/
-	}
-	
-	#LoginPageContent {
-		position:relative;  /*static is the default position */
-		margin-bottom: 3em;
-		min-height: 100%;
-		/*background:green;*/
-	}
-	
-	.footer {
-		position: absolute;  /*relative to its not static ancestor */
-		bottom: 0; /*this is what set the footer to the bootom */
-		width: 100%;
-	}
-	
-	#LandingToolbar{
-		margin:0.5em;
-	}
-	
-	
-    .swiper-slide .message {
-		max-width:40%;
-		padding:1em;
-		position:relative;
-		top:1em;
-		left:1em;
-    }
-    .swiper-slide1 h3 {
-        font-size: 21px;
-    }
-    .swiper-slide1 p {
-		top:margin:0.5em;
-        font-size: 14px;
-        line-height: 1.3;
-    }
-	
-    </style>
+    <link rel="stylesheet" href="../css/styles.css?a=b">
     
      
 </head>
-<body>
-<div id="LoginPage" data-role="page" data-theme="a" >
-	<div id="LandingPageContent" role="main"  class="ui-content"> 
+<body class="WebAppBody">
+<div id="UserLoginPage" class="WebAppPage" data-role="page" data-theme="a" >
+	<div id="UserLoginContent" role="main"  class="WebAppContent ui-content"> 
 
 	<h1 data-role="myheader">Login</h1>
 
+	<s:if test="hasActionErrors()">
+	   <div class="errors">
+	      <s:actionerror/>
+	   </div>
+	</s:if>
 
-
-	<form action="#" method="post">
+	<form action="../public/UserLogin.action" method="post" data-ajax="false">
 		<div class="ui-field-contain">
 		  <label for="userid">email:</label>
-		  <input type="text" name="userid" id="userid" value="email">
+		  <input type="text" name="email" id="email" value="raul.mendoza@excite.com" placeholder="raul.mendoza@excite.com">
 		</div>		
 		<div class="ui-field-contain">
 		  <label for="password">password:</label>
-		  <input type="password" name="password" id="password" value="password">
+		  <input type="password" name="password" id="password" value="mendozra" placeholder="password">
 		</div>		
 		<div class="ui-field-contain">
-			<input type="button" data-mini="true" data-inline="true". value="Cancel"></input>
-			<input type="submit" data-mini="true" data-inline="true". value="Login"></input>
+			<a href="../public/Welcome.action" data-role="button"  data-inline="true"  rel="external">Cancel</a>
+			<input type="submit" data-inline="true" value="Login"></input>
 		</div>
 	</form>	
 	
@@ -99,7 +54,7 @@
 		
     
     </div><!-- content -->
-	<div class="footer">
+	<div class="WebAppFooter">
 
 		<div class="ui-bar ui-bar-b">
 			<a href="https://www.google.com.mx/maps/place/Av+Juan+Jos%C3%A9+Hinojosa+4905,+Los+Cedros,+64370+Monterrey,+N.L./@25.720353,-100.3754806,17z/data=!4m2!3m1!1s0x866296f51f1ff629:0xd354d1f254edd733?hl=en" data-role="button" data-icon="location" data-iconpos="left" data-inline="true" data-mini="true" rel="external">Mapa</a>
@@ -113,7 +68,7 @@
 <script>
 	$(document).ready(function () {
 	    //initialize swiper when document ready 
-
+        alert("login ready");
     
 	 });    
 </script>

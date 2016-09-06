@@ -1,22 +1,20 @@
 package com.sl.db;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class User {
 	
-	private int userID;
+	private long userID;
 	private String email;
 	private String password;
 	private Boolean isActive;
 	private Date createDate;
 	private Date updateDate;
-	private ArrayList<UserRole> userRole;
 	
-	public int getUserID() {
+	public long getUserID() {
 		return userID;
 	}
-	public void setUserID(int userID) {
+	public void setUserID(long userID) {
 		this.userID = userID;
 	}
 	public String getEmail() {
@@ -49,11 +47,4 @@ public class User {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	public ArrayList<UserRole> getUserRole() {
-		return userRole;
-	}
-	public void setUserRole(ArrayList<UserRole> userRole) {
-		this.userRole = userRole;
-	}
-
 }

@@ -1,0 +1,63 @@
+	html,
+	body {
+	  min-height: 100%;
+	  /*background-color: yellow;*/
+	}
+
+	.WebAppBody {
+	  min-height: 100%;
+	  /*background-color: yellow;*/
+	}	
+	.WebAppBody .WebAppPage{
+		position: relative;
+		padding: 0px;
+		overflow-y: visible;
+		min-height: 100%;
+		/*background: pink;*/
+	}	
+	.WebAppBody .WebAppContent
+	{
+		position:relative;  /*static is the default position */
+		margin-bottom: 3em;
+		min-height: 100%;
+		/*background:green;*/
+	}	
+	.webAppHeader{
+		/*background:yellow;*/
+	}
+	.webAppHeader h1{
+		display: inline-block;
+		color:green;
+		/*background:magenta;*/
+	}
+	.webAppHeader .actions{
+		display: inline-block;
+		float:right;
+		/*background:magenta;*/
+	}	
+	.WebAppFooter {
+		position: absolute;  /*relative to its not static ancestor */
+		bottom: 0; /*this is what set the footer to the bootom */
+		width: 100%;
+	}
+	
+	#LandingToolbar{
+		margin:0.5em;
+	}
+	
+	
+    .swiper-slide .message {
+		max-width:40%;
+		padding:1em;
+		position:relative;
+		top:1em;
+		left:1em;
+    }
+    .swiper-slide1 h3 {
+        font-size: 21px;
+    }
+    .swiper-slide1 p {
+		top:margin:0.5em;
+        font-size: 14px;
+        line-height: 1.3;
+    }

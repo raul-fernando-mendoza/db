@@ -1,0 +1,698 @@
+/*
+  DAO created for class: class is ${class} using Raul Mendoza Template Library ver 1.0
+  <#list class.methods as method>
+	Method Declaring Class: ${method.declaringClass}	
+	Method Name: ${method.name} startwith: ${method.name[0..2]}
+	Method return type: ${method.returnType}
+
+	<#if method.name[0..2] == "get">
+		is getter 
+	</#if>
+     Method type: ${method.returnType}
+     Parameters:
+     <#list method.parameterTypes as parameter>
+     		${parameter.getName()}
+     </#list>
+-------------------
+  </#list>
+*/
+<#assign DatabaseName = "com.sl.freemarker.DatabaseNameDirective"?new()>  
+
+<#assign classFullName = class?substring(6)>
+<#assign classNamePosition = class?last_index_of(".")>
+<#assign className = class?substring(classNamePosition+1)>
+<#assign pakageName = class?substring(6,classNamePosition)>
+
+ //	searching for getID
+ <#assign haveSetID = false >
+
+  <#list class.methods as method>
+		//${method.returnType} ${method.name} 
+	<#if method.name == "set${className}ID" && method.declaringClass == class>
+			<#assign haveSetID = true >
+	</#if>
+  </#list>
+
+package ${pakageName};
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import org.apache.log4j.Logger;
+
+public class ${className}DAO extends DAOBase{
+	private static Logger m_logger = Logger.getLogger(${className}DAO.class.getName());
+
+ 	public static long create(${className} ${className?lower_case}) throws Exception {
+		Connection conn = Database.getConnection();
+		PreparedStatement pstmt = null;
+		int id=0;
+		
+		try {
+			String f = "";
+			String v = "";
+			
+			
+			
+  <#assign first="true"> 
+  <#list class.methods as method>
+	<#if method.name[0..2] == "get" && method.declaringClass == class>
+		//${method.returnType} ${method.name}
+		<#if method.name=="getCreateDate" || method.name=="getUpdateDate">
+			f += "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName>";
+			v += "<#if first != "true">,</#if> ?";
+		<#elseif method.name=="get${className}ID" >
+			//f += "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName>";
+			//v += "<#if first != "true">,</#if> ?";
+		<#elseif method.returnType == "class java.lang.String">
+			f += "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName>";
+			v += "<#if first != "true">,</#if> ?";
+			<#assign first="false">
+		<#elseif method.returnType == "class java.lang.Boolean">
+			f += "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName>";
+			v += "<#if first != "true">,</#if> ?";
+			<#assign first="false">
+		<#elseif method.returnType == "class java.util.Date">
+			f += "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName>";
+			v += "<#if first != "true">,</#if> ?";
+			<#assign first="false">
+		<#elseif method.returnType == "int" ||
+				 method.returnType == "long" ||
+		         method.returnType == "double" ||
+		         method.returnType == "boolean" ||
+		         method.returnType == "class java.lang.Double" ||
+		         method.returnType == "class java.lang.Integer" >
+			f += "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName>";
+			v += "<#if first != "true">,</#if> ?";
+			<#assign first="false">
+		</#if>
+	</#if>
+  </#list>			
+			String qry = "insert into <@DatabaseName>${className}</@DatabaseName>(" + f + ") values(" + v + ");";
+			m_logger.debug("preparing statement:" + qry );
+			pstmt = conn.prepareStatement(qry,Statement.RETURN_GENERATED_KEYS); // create a statement
+			int i=1;
+
+  <#assign first="true"> 
+  <#list class.methods as method>
+	<#if method.name[0..2] == "get" && method.declaringClass == class>
+		//${method.returnType} ${method.name}
+		<#if method.name=="getCreateDate" || method.name=="getUpdateDate">
+			setPrepararedStatementDate(pstmt, i++ , new Date());
+		<#elseif method.name=="get${className}ID" >
+			//m_logger.debug("${className?lower_case}.${method.name}() :" + ${className?lower_case}.${method.name}() );
+			//pstmt.setInt(i++ , ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "class java.lang.String">
+			m_logger.debug("${className?lower_case}.${method.name}() :" + ${className?lower_case}.${method.name}() );
+			setPrepararedStatementString( pstmt, i++, ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "class java.lang.Boolean">
+			m_logger.debug("${className?lower_case}.${method.name}() :" + ${className?lower_case}.${method.name}() );
+			setPrepararedStatementBoolean( pstmt, i++, ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "class java.util.Date">
+			m_logger.debug("${className?lower_case}.${method.name}() :" + ${className?lower_case}.${method.name}() );
+			setPrepararedStatementDate( pstmt, i++, ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "int" >
+			m_logger.debug("${className?lower_case}.${method.name}() :" + ${className?lower_case}.${method.name}() );
+			pstmt.setInt(i++ , ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "long" >
+			m_logger.debug("${className?lower_case}.${method.name}() :" + ${className?lower_case}.${method.name}() );
+			pstmt.setLong(i++ , ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "double"  >
+			m_logger.debug("${className?lower_case}.${method.name}() :" + ${className?lower_case}.${method.name}() );
+			pstmt.setDouble(i++ , ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "boolean" >
+			m_logger.debug("${className?lower_case}.${method.name}() :" + ${className?lower_case}.${method.name}() );
+			pstmt.setBoolean(i++ , ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "class java.lang.Double" >
+			m_logger.debug("${className?lower_case}.${method.name}() :" + ${className?lower_case}.${method.name}() );
+			setPrepararedStatementDouble( pstmt, i++, ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "class java.lang.Integer" >
+			m_logger.debug("${className?lower_case}.${method.name}() :" + ${className?lower_case}.${method.name}() );
+			setPrepararedStatementInteger( pstmt, i++, ${className?lower_case}.${method.name}() );
+		</#if>		
+	</#if>
+  </#list>			
+			
+			pstmt.executeUpdate(); // execute insert statement
+			
+			ResultSet rs = pstmt.getGeneratedKeys();
+			// get generated key
+			if (rs != null && rs.next()) {
+			  id = rs.getInt(1);
+			  m_logger.debug("generated key:" + id);
+			}
+						
+		<#if haveSetID == true  >
+			${className?lower_case}.set${className}ID(id);
+		</#if>
+			
+		} catch (SQLException e) {
+			m_logger.error(e);
+  <#list class.methods as method>
+	<#if method.name[0..2] == "get" && method.declaringClass == class>
+		//${method.returnType} ${method.name}
+		m_logger.error("${className?lower_case}.${method.name}() :" + ${className?lower_case}.${method.name}() );
+	</#if>
+  </#list>			
+			pstmt.close();
+			pstmt = null;
+			throw( e);
+		} finally {
+			pstmt.close();
+			pstmt = null;
+		}
+		
+		return id;
+		
+	}
+	
+//	searching for keys
+  <#list class.methods as methodK>
+		//${methodK.returnType} ${methodK.name} 
+	<#if methodK.name[0..2] == "set" && methodK.declaringClass == class>
+		//	parameter 0 : ${methodK.parameterTypes[0].getCanonicalName()}
+		<#assign classNameParameterCanonicalK = methodK.parameterTypes[0].getCanonicalName()>	
+		<#assign classNameParameterPositionK = classNameParameterCanonicalK?last_index_of(".")>
+		<#assign classNameParameterK = classNameParameterCanonicalK?substring(classNameParameterPositionK+1)>	
+		<#if methodK.name != "set${className}ID"  >
+			//${methodK.name} is a key setter
+			<#assign keyMethodK = methodK.name[3..] >
+			<#assign keyTypeK = classNameParameterCanonicalK?substring(classNameParameterPositionK+1)>	
+//****
+			<#if keyTypeK == 'String' || keyTypeK == 'Integer' ||  keyTypeK == 'int' ||  keyTypeK == 'Double' ||  keyTypeK == 'double' ||  keyTypeK == 'Boolean' ||  keyTypeK == 'boolean' >
+	public static ArrayList<${className}> getBy${keyMethodK}(${keyTypeK} ${keyMethodK}) throws Exception {
+		// read all the records in a buffer (m_ads)
+		ArrayList<${className}> arr${className} = new ArrayList<${className}>();
+		Connection conn = Database.getConnection();
+		Statement st = conn.createStatement();
+		try{
+			String strQry = "SELECT "
+
+	  
+	  <#assign first="true"> 
+	  <#list class.methods as method>
+	 
+			//${method.returnType} ${method.name} ${method.declaringClass} ${class}
+			
+		<#if method.name[0..2] == "set" && method.declaringClass == class>
+			//	parameter method : ${method}
+			//	parameter method : ${method.parameterTypes[0]}
+			//	parameter 0 : ${method.parameterTypes[0].getCanonicalName()}
+			<#assign classNameParameterCanonical = method.parameterTypes[0].getCanonicalName()>	
+			<#assign classNameParameterPosition = classNameParameterCanonical?last_index_of(".")>
+			<#assign classNameParameter = classNameParameterCanonical?substring(classNameParameterPosition+1)>
+			<#assign keyMethod = method.name[3..] >
+			<#assign keyType = classNameParameterCanonical?substring(classNameParameterPosition+1)>	
+				
+			<#if     classNameParameter == "String" ||
+					 classNameParameter == "Boolean" ||
+					 classNameParameter == "Integer" ||
+					 classNameParameter == "Double" ||
+					 classNameParameter == "Date" ||
+					 classNameParameter == "int" ||
+					 classNameParameter == "long" ||
+					 classNameParameter == "double" ||
+					 classNameParameter == "boolean" >
+				 + "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName>"
+				  <#assign first="false">
+			</#if>
+		</#if>
+	  </#list>
+					+ " FROM "
+					+ " <@DatabaseName>${className}</@DatabaseName>" 
+			<#if keyTypeK == "String" >
+					+ " WHERE <@DatabaseName>${keyMethodK}</@DatabaseName> = '" + ${keyMethodK} + "'";
+			<#else>
+					+ " WHERE <@DatabaseName>${keyMethodK}</@DatabaseName> = " + ${keyMethodK};
+			</#if>
+			
+			m_logger.debug("Executing SQL:" + strQry);
+			ResultSet rs = st.executeQuery(strQry);
+			m_logger.debug("record found:" + rs.getFetchSize());
+			while (rs.next()) {
+				${className} ${className?lower_case} =  new ${className}();
+	  <#list class.methods as method>
+			//${method.returnType} ${method.name}
+		<#if method.name[0..2] == "set" && method.declaringClass == class>
+			<#assign classNameParameterCanonical = method.parameterTypes[0].getCanonicalName()>	
+			<#assign classNameParameterPosition = classNameParameterCanonical?last_index_of(".")>
+			<#assign classNameParameter = classNameParameterCanonical?substring(classNameParameterPosition+1)>	
+			<#if classNameParameter == "String">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getString("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getString("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "Date">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getDate("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getDate("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "int" ||
+					 classNameParameter == "Integer">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getInt("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getInt("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "long" ||
+					 classNameParameter == "Long">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getLong("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getLong("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "Double" ||
+					 classNameParameter == "double">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getDouble("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getDouble("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "boolean" || classNameParameter == "Boolean">	
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getBoolean("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getBoolean("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			</#if>
+		</#if>
+	  </#list>
+
+	//getting dependencies	
+	<#list class.methods as method>
+		//${method.returnType} ${method.name} 
+		<#if method.name[0..2] == "set" && method.declaringClass == class>
+			//	parameter 0 : ${method.parameterTypes[0].getCanonicalName()}
+			<#assign classNameParameterCanonical = method.parameterTypes[0].getCanonicalName()>	
+			<#assign classNameParameterPosition = classNameParameterCanonical?last_index_of(".")>
+			<#assign keyMethod = method.name[3..] >
+			<#assign keyType = classNameParameterCanonical?substring(classNameParameterPosition+1)>	
+				
+			<#if method.name != "set${className}ID"  >
+				//${method.name} is a key setter
+				<#assign keyMethod = method.name[3..] >
+				<#assign keyType = classNameParameterCanonical?substring(classNameParameterPosition+1)>	
+				//keytype: ${keyType}
+				<#if keyType != 'String' && keyType != 'Integer' &&  keyType != 'int' &&  keyType != 'long' && keyType != 'Long' &&  keyType != 'Double' &&  keyType != 'double' &&  keyType != 'Boolean' &&  keyType != 'boolean' &&  keyType != 'Date' >
+					<#if keyMethod?starts_with(className + "_") >
+					    //retrieve using the class ID this is to retrieve using the objects id over other class
+						${className?lower_case}.set${keyMethod}( ${keyType}DAO.getBy${className}ID(${className?lower_case}.get${className}ID()));
+					<#else>
+						//retrieve using the method id
+						${className?lower_case}.set${keyMethod}( ${keyType}DAO.getBy${keyType}ID(${className?lower_case}.get${keyMethod}ID()));
+					</#if>		
+				</#if>
+			</#if>			
+		</#if>
+	</#list>	
+	//end getting dependencies  
+				arr${className}.add(${className?lower_case});
+			}
+			rs.close();
+			rs = null;
+		} catch (SQLException e) {
+			m_logger.error(e);
+			st.close();
+			st = null;
+			throw( e);
+		} finally {
+			st.close();
+			st = null;
+		}	
+
+		return arr${className};
+	}
+
+	public static void deleteBy${keyMethodK}(${keyTypeK} ${keyMethodK}) throws Exception {
+		Connection conn = Database.getConnection();
+		Statement st = conn.createStatement();
+		try{
+			String strSQL = "delete from <@DatabaseName>${className}</@DatabaseName>"
+			<#if keyTypeK == "String" >
+					+ " WHERE <@DatabaseName>${keyMethodK}</@DatabaseName> = '" + ${keyMethodK} + "'";
+			<#else>
+					+ " WHERE <@DatabaseName>${keyMethodK}</@DatabaseName> = " + ${keyMethodK};
+			</#if>	
+			m_logger.debug(strSQL);
+			int r1 = st.executeUpdate(strSQL);
+			if (r1 == -1) {
+				m_logger.error("there was and error deleting by:" + ${keyMethodK});
+			} else {
+				m_logger.debug("record was deleted");
+			}
+		} catch (SQLException e) {
+			m_logger.error(e);
+			st.close();
+			st = null;
+			throw( e);
+		} finally {
+			st.close();
+			st = null;
+		}	
+	}
+			
+//******	
+			</#if>		
+		</#if>
+	</#if>
+  </#list>
+
+ // end searching for keys
+ 
+//****
+<#if haveSetID == true  >
+ 
+	public static ${className} getBy${className}ID(int ${className?lower_case}ID) throws Exception {
+		// read all the records in a buffer (m_ads)
+		${className} ${className?lower_case} = null;
+		
+		Connection conn = Database.getConnection();
+
+		Statement st = conn.createStatement();
+		try{
+			String strQry = "SELECT "
+
+	  
+	  <#assign first="true"> 
+	  <#list class.methods as method>
+			//${method.returnType} ${method.name} 
+		<#if method.name[0..2] == "set" && method.declaringClass == class>
+			//	parameter 0 : ${method.parameterTypes[0].getCanonicalName()}
+			<#assign classNameParameterCanonical = method.parameterTypes[0].getCanonicalName()>	
+			<#assign classNameParameterPosition = classNameParameterCanonical?last_index_of(".")>
+			<#assign classNameParameter = classNameParameterCanonical?substring(classNameParameterPosition+1)>	
+			<#if     classNameParameter == "String" ||
+					 classNameParameter == "Boolean" ||
+					 classNameParameter == "Integer" ||
+					 classNameParameter == "Double" ||
+					 classNameParameter == "Date" ||
+					 classNameParameter == "int" ||
+					 classNameParameter == "long" ||
+					 classNameParameter == "double" ||
+					 classNameParameter == "boolean" >
+				 + "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName>"
+				  <#assign first="false">
+			</#if>
+		</#if>
+	  </#list>
+					+ " FROM "
+					+ " <@DatabaseName>${className}</@DatabaseName>" 
+					+ " WHERE <@DatabaseName>${className}</@DatabaseName>_id = " + ${className?lower_case}ID;
+
+			m_logger.debug("Executing SQL:" + strQry);
+			ResultSet rs = st.executeQuery(strQry);
+
+			if (rs.next()) {
+				${className?lower_case} = new ${className}();
+	  <#list class.methods as method>
+			//${method.returnType} ${method.name}
+		<#if method.name[0..2] == "set" && method.declaringClass == class>
+			<#assign classNameParameterCanonical = method.parameterTypes[0].getCanonicalName()>	
+			<#assign classNameParameterPosition = classNameParameterCanonical?last_index_of(".")>
+			<#assign classNameParameter = classNameParameterCanonical?substring(classNameParameterPosition+1)>	
+			<#if classNameParameter == "String">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getString("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getString("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "Date">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getDate("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getDate("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "int" ||
+					 classNameParameter == "Integer">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getInt("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getInt("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "long" ||
+					 classNameParameter == "Long">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getLong("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getLong("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "Double" ||
+					 classNameParameter == "double">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getDouble("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getDouble("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "boolean" || classNameParameter == "Boolean">	
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getBoolean("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getBoolean("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			</#if>
+		</#if>
+	  </#list>
+
+			}
+			rs.close();
+			rs = null;
+		} catch (SQLException e) {
+			m_logger.error(e);
+			st.close();
+			st = null;
+			throw( e);
+		} finally {
+			st.close();
+			st = null;
+		}
+		//getting dependencies	
+	<#list class.methods as method>
+		//${method.returnType} ${method.name} 
+		<#if method.name[0..2] == "set" && method.declaringClass == class>
+			//	parameter 0 : ${method.parameterTypes[0].getCanonicalName()}
+			<#assign classNameParameterCanonical = method.parameterTypes[0].getCanonicalName()>	
+			<#assign classNameParameterPosition = classNameParameterCanonical?last_index_of(".")>
+			<#assign classNameParameter = classNameParameterCanonical?substring(classNameParameterPosition+1)>	
+			<#if method.name != "set${className}ID"  >
+				//${method.name} is a key setter
+				<#assign keyMethod = method.name[3..] >
+				<#assign keyType = classNameParameterCanonical?substring(classNameParameterPosition+1)>	
+				//keytype: ${keyType}
+				<#if keyType != 'String' && keyType != 'Integer' &&  keyType != 'int' &&  keyType != 'long' &&  keyType != 'Long' &&  keyType != 'Double' &&  keyType != 'double' &&  keyType != 'Boolean' &&  keyType != 'boolean' &&  keyType != 'Date' >
+					<#if keyMethod?starts_with(className + '_') >
+					    //retrieve using the class ID not used now
+						${className?lower_case}.set${keyMethod}( ${keyType}DAO.getBy${className}ID(${className?lower_case}.get${className}ID()));
+					<#else>
+						//retrieve using the method id
+						${className?lower_case}.set${keyMethod}( ${keyType}DAO.getBy${keyType}ID(${className?lower_case}.get${keyMethod}ID()));
+					</#if>	
+				</#if>
+			</#if>
+		</#if>
+	</#list>	
+	//end getting dependencies	
+		
+		return ${className?lower_case};
+	}
+	
+	public static void deleteBy${className}ID(int ${className?lower_case}ID) throws Exception {
+		Connection conn = Database.getConnection();
+		Statement st = conn.createStatement();
+		try{
+			String strSQL = "delete from <@DatabaseName>${className}</@DatabaseName> where <@DatabaseName>${className}</@DatabaseName>_id=" + ${className?lower_case}ID;
+			m_logger.debug(strSQL);
+			int r1 = st.executeUpdate(strSQL);
+			if (r1 == -1) {
+				m_logger.error("there was and error deleting record:" + ${className?lower_case}ID);
+			} else {
+				m_logger.debug("record was deleted correctly:" + ${className?lower_case}ID);
+			}
+		} catch (SQLException e) {
+			m_logger.error(e);
+			st.close();
+			st = null;
+			throw( e);
+		} finally {
+			st.close();
+			st = null;
+		}	
+	
+		conn = null;
+	}
+
+ 
+	public static void update(${className} ${className?lower_case}) throws Exception {
+		Connection conn = Database.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			String f = "";
+			
+  <#assign first="true"> 
+  <#list class.methods as method>
+	<#if method.name[0..2] == "get" && method.declaringClass == class>
+		//${method.returnType} ${method.name}
+		<#if method.name=="getCreateDate" >
+			f += "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName> = ?";
+			<#assign first="false">
+		<#elseif method.name=="getUpdateDate">
+			f += "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName> = ?";
+			<#assign first="false">
+		<#elseif method.returnType == "class java.lang.String">
+			f += "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName> = ?";
+			<#assign first="false">
+		<#elseif method.returnType == "class java.lang.Boolean">
+			f += "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName> = ?";
+			<#assign first="false">
+		<#elseif method.returnType == "class java.util.Date">
+			f += "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName> = ?";
+			<#assign first="false">
+		<#elseif method.returnType == "int" ||
+				 method.returnType == "long" ||
+				 method.returnType == "class java.lang.Long" ||
+		         method.returnType == "double" ||
+		         method.returnType == "boolean" ||
+		         method.returnType == "class java.lang.Double" ||
+		         method.returnType == "class java.lang.Integer" >
+			f += "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName> = ?";
+			<#assign first="false">
+		</#if>
+	</#if>
+  </#list>			
+			String qry = "update <@DatabaseName>${className}</@DatabaseName> set " + f + " where <@DatabaseName>${className}</@DatabaseName>_id = " + ${className?lower_case}.get${className}ID() ;
+			m_logger.debug(qry);
+			pstmt = conn.prepareStatement(qry); // create a statement
+			int i=1;
+
+  <#assign first="true"> 
+  <#list class.methods as method>
+	<#if method.name[0..2] == "get" && method.declaringClass == class>
+		//${method.returnType} ${method.name}
+		<#if method.name=="getCreateDate" >
+			setPrepararedStatementDate( pstmt, i++, ${className?lower_case}.${method.name}() );
+		<#elseif  method.name=="getUpdateDate">
+			setPrepararedStatementDate( pstmt, i++, new Date() );
+		<#elseif method.returnType == "class java.lang.String">
+			setPrepararedStatementString( pstmt, i++, ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "class java.lang.Boolean">
+			setPrepararedStatementBoolean( pstmt, i++, ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "class java.util.Date">
+			setPrepararedStatementDate( pstmt, i++, ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "int" >
+			pstmt.setInt(i++ , ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "double"  >
+			pstmt.setDouble(i++ , ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "boolean" >
+			pstmt.setBoolean(i++ , ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "class java.lang.Long" >
+			setPrepararedStatementLong( pstmt, i++, ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "class java.lang.Double" >
+			setPrepararedStatementDouble( pstmt, i++, ${className?lower_case}.${method.name}() );
+		<#elseif method.returnType == "class java.lang.Integer" >
+			setPrepararedStatementInteger( pstmt, i++, ${className?lower_case}.${method.name}() );
+		</#if>		
+
+	</#if>
+  </#list>			
+			
+			pstmt.executeUpdate(); // execute insert statement
+		} catch (SQLException e) {
+			m_logger.error(e);
+			pstmt.close();
+			pstmt = null;
+			throw( e);
+		} finally {
+			pstmt.close();
+			pstmt = null;
+		}	
+
+	}
+</#if>
+// end searching for set${className}ID
+  	
+	public static Collection<${className}> getListAll() throws Exception {
+		// read all the records in a buffer 
+		ArrayList<${className}> list = new ArrayList<${className}>();
+		Connection conn = Database.getConnection();
+		Statement st = conn.createStatement();
+		try{
+			String strQry = "SELECT "
+
+	  
+	  <#assign first="true"> 
+	  <#list class.methods as method>
+			//${method.returnType} ${method.name} 
+		<#if method.name[0..2] == "set" && method.declaringClass == class>
+			//	parameter 0 : ${method.parameterTypes[0].getCanonicalName()}
+			<#assign classNameParameterCanonical = method.parameterTypes[0].getCanonicalName()>	
+			<#assign classNameParameterPosition = classNameParameterCanonical?last_index_of(".")>
+			<#assign classNameParameter = classNameParameterCanonical?substring(classNameParameterPosition+1)>	
+			<#if     classNameParameter == "String" ||
+					 classNameParameter == "Boolean" ||
+					 classNameParameter == "Integer" ||
+					 classNameParameter == "Double" ||
+					 classNameParameter == "Date" ||
+					 classNameParameter == "int" ||
+					 classNameParameter == "long" ||
+					 classNameParameter == "double" ||
+					 classNameParameter == "boolean" >
+				 + "<#if first != "true">,</#if> <@DatabaseName>${method.name[3..]}</@DatabaseName>"
+				  <#assign first="false">
+			</#if>
+		</#if>
+	  </#list>
+					+ " FROM "
+					+ " <@DatabaseName>${className}</@DatabaseName>"; 
+
+			m_logger.debug("Executing SQL:" + strQry);
+			ResultSet rs = st.executeQuery(strQry);
+		
+			while (rs.next()) {
+				${className} ${className?lower_case} = new ${className}();
+	  <#list class.methods as method>
+			//${method.returnType} ${method.name}
+		<#if method.name[0..2] == "set" && method.declaringClass == class>
+			<#assign classNameParameterCanonical = method.parameterTypes[0].getCanonicalName()>	
+			<#assign classNameParameterPosition = classNameParameterCanonical?last_index_of(".")>
+			<#assign classNameParameter = classNameParameterCanonical?substring(classNameParameterPosition+1)>	
+			<#if classNameParameter == "String">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getString("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getString("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "Date">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getDate("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getDate("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "int" ||
+					 classNameParameter == "Integer">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getInt("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getInt("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "long" ||
+					 classNameParameter == "Long">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getLong("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getLong("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "Double" ||
+					 classNameParameter == "double">
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getDouble("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getDouble("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			<#elseif classNameParameter == "boolean" || classNameParameter == "Boolean">	
+				m_logger.debug("${className?lower_case}.${method.name}(" + rs.getBoolean("<@DatabaseName>${method.name[3..]}</@DatabaseName>") + ")" );
+				${className?lower_case}.${method.name}(rs.getBoolean("<@DatabaseName>${method.name[3..]}</@DatabaseName>"));
+			</#if>
+		</#if>
+	  </#list>
+		//getting dependencies	
+	<#list class.methods as method>
+		//${method.returnType} ${method.name} 
+		<#if method.name[0..2] == "set" && method.declaringClass == class>
+			//  parameter 0 definition: ${method.parameterTypes[0]}
+			//	parameter 0 : ${method.parameterTypes[0].getCanonicalName()}
+			
+			<#assign classNameParameterCanonical = method.parameterTypes[0].getCanonicalName()>	
+			<#assign classNameParameterPosition = classNameParameterCanonical?last_index_of(".")>
+			<#assign classNameParameter = classNameParameterCanonical?substring(classNameParameterPosition+1)>	
+			<#if method.name != "set${className}ID"  >
+				//${method.name} is a key setter
+				<#assign keyMethod = method.name[3..] >
+				<#assign keyType = classNameParameterCanonical?substring(classNameParameterPosition+1)>	
+				//keytype1: ${keyType}
+				<#if keyType != 'String' && keyType != 'Integer' &&  keyType != 'int' &&  keyType != 'long' &&  keyType != 'Long' &&  keyType != 'Double' &&  keyType != 'double' &&  keyType != 'Boolean' &&  keyType != 'boolean' &&  keyType != 'Date' >
+					<#if keyMethod?starts_with(className + '_') >
+					    //retrieve using the class ID
+						${className?lower_case}.set${keyMethod}( ${keyType}DAO.getBy${className}ID(${className?lower_case}.get${className}ID()));
+					<#else>
+						//retrieve using the method id
+						${className?lower_case}.set${keyMethod}( ${keyType}DAO.getBy${keyType}ID(${className?lower_case}.get${keyMethod}ID()));
+					</#if>	
+				</#if>
+			</#if>
+		</#if>
+	</#list>	
+	//end getting dependencies	 	  
+	  
+				list.add( ${className?lower_case} );
+			}
+			rs.close();
+			rs = null;
+		} catch (SQLException e) {
+			m_logger.error(e);
+			st.close();
+			st = null;
+			throw( e);
+		} finally {
+			st.close();
+			st = null;
+		}
+		return list;
+	}
+
+}
+  
