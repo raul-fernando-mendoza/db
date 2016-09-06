@@ -1,6 +1,6 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html> 
-<html ng-app="websiteApp">
+<html ng-app="dbModule">
 <head>
     <title>DB</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +15,8 @@
 	<script type="text/javascript" src="../iscroll-5.1.3/build/iscroll.js"></script>
 	
 	<script type="text/javascript" src="../angular-1.3.15/angular.js"></script>
-	<script type="text/javascript" src="../scripts/module_angular.js"></script>	
+	<script type="text/javascript" src="../jscripts/DBModule.js"></script>
+	<script type="text/javascript" src="../jscripts/EntityController.js"></script>		
 
 	<link rel="stylesheet" href="../themes/white.min.css" />
 	<link rel="stylesheet" href="../themes/jquery.mobile.icons.min.css" />
@@ -93,9 +94,18 @@
 
 
 	List of Entities:
-	<ul>
-		<li>employees</li>
-	</ul>
+				<h3> this is using the theme at ./themes/white.min.css </h3>
+				
+				<div ng-controller="EntityController as entityList">
+				  <span>Numero de entities:{{entityList.entities.length}}</span>
+				  
+					<div data-role="controlgroup">
+						<div ng-repeat="entity in entityList.entities track by entity.id">
+							<label for="{{entity.id}}">{{entity.name}} {{entity.id}}</label>
+						</div>	
+				    </div>
+				  
+				</div>
 		
     
     </div><!-- content -->

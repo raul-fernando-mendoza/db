@@ -4288,3 +4288,62 @@ There is no Action mapped for namespace [/public] and action name [UserCreateLog
 30 com.sl.db.DBContextServletListener contextDestroyed 20:26:04,266 DEBUG DBContextServletListener:30 - Database is been shutdown
 45 com.sl.db.Database Shutdown 20:26:04,266 DEBUG Database:45 - shutdown completed
 37 com.sl.db.DBContextServletListener contextDestroyed 20:26:04,266 DEBUG DBContextServletListener:37 - shutdown completed successfully
+18 com.sl.db.DBContextServletListener contextInitialized 21:25:34,870 DEBUG DBContextServletListener:18 - ***************************************
+19 com.sl.db.DBContextServletListener contextInitialized 21:25:34,876 DEBUG DBContextServletListener:19 - The context ROOT DBContextServletListener has been created now
+18 com.sl.db.CachingHeadersInterceptor intercept 21:25:44,485 DEBUG CachingHeadersInterceptor:18 - CachingHeadersInterceptor intercept invocation called
+22 com.sl.db.CachingHeadersInterceptor intercept 21:25:44,488 DEBUG CachingHeadersInterceptor:22 - Request getRequestURI:/db/public/Welcome.action
+23 com.sl.db.CachingHeadersInterceptor intercept 21:25:44,489 DEBUG CachingHeadersInterceptor:23 - getContextPath():/db
+24 com.sl.db.CachingHeadersInterceptor intercept 21:25:44,491 DEBUG CachingHeadersInterceptor:24 - getQueryString():null
+25 com.sl.db.CachingHeadersInterceptor intercept 21:25:44,495 DEBUG CachingHeadersInterceptor:25 - getRequestURL:http://localhost:8080/db/public/Welcome.action
+26 com.sl.db.CachingHeadersInterceptor intercept 21:25:44,496 DEBUG CachingHeadersInterceptor:26 - getPathInfo:null
+27 com.sl.db.CachingHeadersInterceptor intercept 21:25:44,496 DEBUG CachingHeadersInterceptor:27 - getServletPath:/public/Welcome.action
+28 com.sl.db.CachingHeadersInterceptor intercept 21:25:44,499 DEBUG CachingHeadersInterceptor:28 - getCharacterEncoding:UTF-8
+29 com.sl.db.CachingHeadersInterceptor intercept 21:25:44,500 DEBUG CachingHeadersInterceptor:29 - User-Agent:Mozilla/5.0 (Windows NT 10.0; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0
+30 com.sl.db.CachingHeadersInterceptor intercept 21:25:44,501 DEBUG CachingHeadersInterceptor:30 - Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+36 com.sl.db.CachingHeadersInterceptor intercept 21:25:44,502 DEBUG CachingHeadersInterceptor:36 - remove caches
+18 com.sl.db.CachingHeadersInterceptor intercept 21:29:36,623 DEBUG CachingHeadersInterceptor:18 - CachingHeadersInterceptor intercept invocation called
+22 com.sl.db.CachingHeadersInterceptor intercept 21:29:36,629 DEBUG CachingHeadersInterceptor:22 - Request getRequestURI:/db/public/Welcome.action
+23 com.sl.db.CachingHeadersInterceptor intercept 21:29:36,630 DEBUG CachingHeadersInterceptor:23 - getContextPath():/db
+24 com.sl.db.CachingHeadersInterceptor intercept 21:29:36,633 DEBUG CachingHeadersInterceptor:24 - getQueryString():null
+25 com.sl.db.CachingHeadersInterceptor intercept 21:29:36,635 DEBUG CachingHeadersInterceptor:25 - getRequestURL:http://localhost:8080/db/public/Welcome.action
+26 com.sl.db.CachingHeadersInterceptor intercept 21:29:36,636 DEBUG CachingHeadersInterceptor:26 - getPathInfo:null
+27 com.sl.db.CachingHeadersInterceptor intercept 21:29:36,637 DEBUG CachingHeadersInterceptor:27 - getServletPath:/public/Welcome.action
+28 com.sl.db.CachingHeadersInterceptor intercept 21:29:36,643 DEBUG CachingHeadersInterceptor:28 - getCharacterEncoding:UTF-8
+29 com.sl.db.CachingHeadersInterceptor intercept 21:29:36,645 DEBUG CachingHeadersInterceptor:29 - User-Agent:Mozilla/5.0 (Windows NT 10.0; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0
+30 com.sl.db.CachingHeadersInterceptor intercept 21:29:36,648 DEBUG CachingHeadersInterceptor:30 - Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+36 com.sl.db.CachingHeadersInterceptor intercept 21:29:36,653 DEBUG CachingHeadersInterceptor:36 - remove caches
+18 com.sl.db.CachingHeadersInterceptor intercept 21:29:44,074 DEBUG CachingHeadersInterceptor:18 - CachingHeadersInterceptor intercept invocation called
+22 com.sl.db.CachingHeadersInterceptor intercept 21:29:44,076 DEBUG CachingHeadersInterceptor:22 - Request getRequestURI:/db/public/Welcome.action
+23 com.sl.db.CachingHeadersInterceptor intercept 21:29:44,078 DEBUG CachingHeadersInterceptor:23 - getContextPath():/db
+24 com.sl.db.CachingHeadersInterceptor intercept 21:29:44,079 DEBUG CachingHeadersInterceptor:24 - getQueryString():null
+25 com.sl.db.CachingHeadersInterceptor intercept 21:29:44,082 DEBUG CachingHeadersInterceptor:25 - getRequestURL:http://localhost:8080/db/public/Welcome.action
+26 com.sl.db.CachingHeadersInterceptor intercept 21:29:44,083 DEBUG CachingHeadersInterceptor:26 - getPathInfo:null
+27 com.sl.db.CachingHeadersInterceptor intercept 21:29:44,088 DEBUG CachingHeadersInterceptor:27 - getServletPath:/public/Welcome.action
+28 com.sl.db.CachingHeadersInterceptor intercept 21:29:44,089 DEBUG CachingHeadersInterceptor:28 - getCharacterEncoding:UTF-8
+29 com.sl.db.CachingHeadersInterceptor intercept 21:29:44,094 DEBUG CachingHeadersInterceptor:29 - User-Agent:Mozilla/5.0 (Windows NT 10.0; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0
+30 com.sl.db.CachingHeadersInterceptor intercept 21:29:44,096 DEBUG CachingHeadersInterceptor:30 - Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+36 com.sl.db.CachingHeadersInterceptor intercept 21:29:44,099 DEBUG CachingHeadersInterceptor:36 - remove caches
+18 com.sl.db.CachingHeadersInterceptor intercept 21:30:04,210 DEBUG CachingHeadersInterceptor:18 - CachingHeadersInterceptor intercept invocation called
+22 com.sl.db.CachingHeadersInterceptor intercept 21:30:04,212 DEBUG CachingHeadersInterceptor:22 - Request getRequestURI:/db/public/Welcome.action
+23 com.sl.db.CachingHeadersInterceptor intercept 21:30:04,214 DEBUG CachingHeadersInterceptor:23 - getContextPath():/db
+24 com.sl.db.CachingHeadersInterceptor intercept 21:30:04,215 DEBUG CachingHeadersInterceptor:24 - getQueryString():null
+25 com.sl.db.CachingHeadersInterceptor intercept 21:30:04,218 DEBUG CachingHeadersInterceptor:25 - getRequestURL:http://localhost:8080/db/public/Welcome.action
+26 com.sl.db.CachingHeadersInterceptor intercept 21:30:04,221 DEBUG CachingHeadersInterceptor:26 - getPathInfo:null
+27 com.sl.db.CachingHeadersInterceptor intercept 21:30:04,223 DEBUG CachingHeadersInterceptor:27 - getServletPath:/public/Welcome.action
+28 com.sl.db.CachingHeadersInterceptor intercept 21:30:04,225 DEBUG CachingHeadersInterceptor:28 - getCharacterEncoding:UTF-8
+29 com.sl.db.CachingHeadersInterceptor intercept 21:30:04,228 DEBUG CachingHeadersInterceptor:29 - User-Agent:Mozilla/5.0 (Windows NT 10.0; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0
+30 com.sl.db.CachingHeadersInterceptor intercept 21:30:04,231 DEBUG CachingHeadersInterceptor:30 - Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+36 com.sl.db.CachingHeadersInterceptor intercept 21:30:04,233 DEBUG CachingHeadersInterceptor:36 - remove caches
+18 com.sl.db.CachingHeadersInterceptor intercept 21:35:55,147 DEBUG CachingHeadersInterceptor:18 - CachingHeadersInterceptor intercept invocation called
+22 com.sl.db.CachingHeadersInterceptor intercept 21:35:55,153 DEBUG CachingHeadersInterceptor:22 - Request getRequestURI:/db/public/Welcome.action
+23 com.sl.db.CachingHeadersInterceptor intercept 21:35:55,164 DEBUG CachingHeadersInterceptor:23 - getContextPath():/db
+24 com.sl.db.CachingHeadersInterceptor intercept 21:35:55,165 DEBUG CachingHeadersInterceptor:24 - getQueryString():null
+25 com.sl.db.CachingHeadersInterceptor intercept 21:35:55,170 DEBUG CachingHeadersInterceptor:25 - getRequestURL:http://localhost:8080/db/public/Welcome.action
+26 com.sl.db.CachingHeadersInterceptor intercept 21:35:55,176 DEBUG CachingHeadersInterceptor:26 - getPathInfo:null
+27 com.sl.db.CachingHeadersInterceptor intercept 21:35:55,180 DEBUG CachingHeadersInterceptor:27 - getServletPath:/public/Welcome.action
+28 com.sl.db.CachingHeadersInterceptor intercept 21:35:55,183 DEBUG CachingHeadersInterceptor:28 - getCharacterEncoding:UTF-8
+29 com.sl.db.CachingHeadersInterceptor intercept 21:35:55,188 DEBUG CachingHeadersInterceptor:29 - User-Agent:Mozilla/5.0 (Windows NT 10.0; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0
+30 com.sl.db.CachingHeadersInterceptor intercept 21:35:55,191 DEBUG CachingHeadersInterceptor:30 - Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+36 com.sl.db.CachingHeadersInterceptor intercept 21:35:55,196 DEBUG CachingHeadersInterceptor:36 - remove caches
+29 com.sl.db.DBContextServletListener contextDestroyed 21:38:52,387 DEBUG DBContextServletListener:29 - the context DBContextServletListener has been destroyed
+30 com.sl.db.DBContextServletListener contextDestroyed 21:38:52,387 DEBUG DBContextServletListener:30 - Database is been shutdown
