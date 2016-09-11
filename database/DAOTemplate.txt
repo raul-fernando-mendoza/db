@@ -184,7 +184,7 @@ public class ${className}DAO extends DAOBase{
 			<#assign keyMethodK = methodK.name[3..] >
 			<#assign keyTypeK = classNameParameterCanonicalK?substring(classNameParameterPositionK+1)>	
 //****
-			<#if keyTypeK == 'String' || keyTypeK == 'Integer' ||  keyTypeK == 'int' ||  keyTypeK == 'Double' ||  keyTypeK == 'double' ||  keyTypeK == 'Boolean' ||  keyTypeK == 'boolean' >
+			<#if keyTypeK == 'String' || keyTypeK == 'Integer' ||  keyTypeK == 'int' ||  keyTypeK == 'Double' ||  keyTypeK == 'double' ||  keyTypeK == 'Boolean' ||  keyTypeK == 'boolean' || keyTypeK == 'long'>
 	public static ArrayList<${className}> getBy${keyMethodK}(${keyTypeK} ${keyMethodK}) throws Exception {
 		// read all the records in a buffer (m_ads)
 		ArrayList<${className}> arr${className} = new ArrayList<${className}>();
@@ -351,7 +351,7 @@ public class ${className}DAO extends DAOBase{
 //****
 <#if haveSetID == true  >
  
-	public static ${className} getBy${className}ID(int ${className?lower_case}ID) throws Exception {
+	public static ${className} getBy${className}ID(long ${className?lower_case}ID) throws Exception {
 		// read all the records in a buffer (m_ads)
 		${className} ${className?lower_case} = null;
 		
@@ -466,7 +466,7 @@ public class ${className}DAO extends DAOBase{
 		return ${className?lower_case};
 	}
 	
-	public static void deleteBy${className}ID(int ${className?lower_case}ID) throws Exception {
+	public static void deleteBy${className}ID(long ${className?lower_case}ID) throws Exception {
 		Connection conn = Database.getConnection();
 		Statement st = conn.createStatement();
 		try{

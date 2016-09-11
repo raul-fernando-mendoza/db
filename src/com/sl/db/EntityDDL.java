@@ -18,7 +18,7 @@ public class EntityDDL extends DAOBase{
 			Entity parentEntity = null;
 			if( entity.getParentEntityID() > 0 ){
 				m_logger.debug("there is parent entity" + entity.getParentEntityID());
-				parentEntity = EntityDAO.getByEntityID(schema, entity.getParentEntityID());
+				parentEntity = EntityDAO.getByEntityID(entity.getParentEntityID());
 				if( parentEntity == null){
 					m_logger.error("entity.parentEntityNotFound");
 					throw( new Exception("entity.parentEntityNotFound"));
@@ -34,7 +34,7 @@ public class EntityDDL extends DAOBase{
 				qry+=	", PRIMARY KEY(" + entity.getEntityName() + "_id)" ;
 			if( parentEntity !=null){
 				qry+= ",";
-				if( entity.getIsMultiple() == 0){
+				if( "Y".equals(entity.getIsMultiple()) ){
 					qry += "UNIQUE";
 				}
 				qry+=" INDEX " + entity.getEntityName() + parentEntity.getEntityName() + "_idx (" + parentEntity.getEntityName() + "_id ASC)";

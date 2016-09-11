@@ -10,29 +10,19 @@ public class EntityCreateAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 	private static Category m_logger = Logger.getLogger(EntityCreateAction.class.getName());
 	
-	String schema;
 	Entity entity;
 	private String parentEntityName;
 	private String entityName;
 	private String label;
 	private String description;
-	private int isMultiple;
+	private String isMultiple="N";
 	
 	private Entity parentEntity=null;
 	
-	public String getSchema() {
-		return schema;
-	}
-
-	public void setSchema(String schema) {
-		this.schema = schema;
-	}
 	
 	public Object getData(){
 		return entity;
 	}
-
-
 
 
 	public String getParentEntityName() {
@@ -67,34 +57,19 @@ public class EntityCreateAction extends BaseAction {
 		this.description = description;
 	}
 
-	public int getIsMultiple() {
+	public String getIsMultiple() {
 		return isMultiple;
 	}
 
-	public void setIsMultiple(int isMultiple) {
+	public void setIsMultiple(String isMultiple) {
 		this.isMultiple = isMultiple;
 	}
 	
-	
-
-	@Override
-	public void validate() {
-		super.validate();
-		if( null == schema || schema.isEmpty()) 
-			addFieldError("schema","entity.invalidSchema");
-		if( parentEntityName != null &&  !parentEntityName.isEmpty() ){
-			try {
-				parentEntity = EntityDAO.getByEntityName(schema, parentEntityName);
-				if( null==parentEntity ){
-					addFieldError("parentEntityName","entity.invalidParent");
-				}
-			} catch (Exception e) {
-				m_logger.error(e);
-				addActionError(e.getMessage());
-			}
-		}
+	public String initialize(){
+		m_logger.debug("called CreateEntityAction_initialize");
+		return SUCCESS;
 	}
-
+	
 	public String execute() {
 		m_logger.debug("called CreateEntityAction");
 		try {
@@ -107,12 +82,13 @@ public class EntityCreateAction extends BaseAction {
 			if( null != parentEntity ){
 				entity.setParentEntityID(parentEntity.getEntityID());
 			}	
-			entity.setCreatedBy(getCurrentUser(schema).getUserID());
-			entity.setUpdatedBy(getCurrentUser(schema).getUserID());
+			User currentUser = getCurrentUser();
+			entity.setCreatedBy(getCurrentUser().getUserID());
+			entity.setUpdatedBy(getCurrentUser().getUserID());
 			entity.setCreateDate(new Date());
 			entity.setUpdateDate(new Date());
-			EntityDDL.Create(schema, entity);
-			EntityDAO.create(schema, entity);
+			EntityDDL.Create(Long.toString(currentUser.getUserID()), entity);
+			EntityDAO.create(entity);
 		} catch (Exception e) {
 			m_logger.error(e);
 			addActionError(e.getMessage()); 

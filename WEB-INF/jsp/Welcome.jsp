@@ -12,23 +12,23 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script type="text/javascript" src="../jquery-2.1.4/jquery-2.1.4.js"></script>
 
-	<script type="text/javascript" src="../iscroll-5.1.3/build/iscroll.js"></script>
-	
 	<script type="text/javascript" src="../angular-1.3.15/angular.js"></script>
-	<script type="text/javascript" src="../jscripts/DBModule.js"></script>
-	<script type="text/javascript" src="../jscripts/EntityController.js"></script>		
+	
+
 
 	<link rel="stylesheet" href="../themes/white.min.css" />
 	<link rel="stylesheet" href="../themes/jquery.mobile.icons.min.css" />
   	<link rel="stylesheet" href="../jquery.mobile-1.4.5/jquery.mobile.structure-1.4.5.min.css" />
 	<script type="text/javascript" src="../jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
-
+	<script type="text/javascript" src="../jscripts/DBModule.js"></script>
+	<script type="text/javascript" src="../jscripts/DBjquery.js"></script>	
+	
 
 	<link rel="stylesheet" href="../jscripts/Toolbar.css" />
 	<script type="text/javascript" src="../jscripts/ToolbarWidget.js?a=1"></script>	
 
-
+	<script type="text/javascript" src="../iscroll-5.1.3/build/iscroll.js"></script>
     <!-- Swiper JS -->
     <script src="../Swiper-master/dist/js/swiper.jquery.min.js"></script>
 	
@@ -37,9 +37,13 @@
 
 	<link rel="stylesheet" href="../jscripts/ImageGallery.css" />
 	<script type="text/javascript" src="../jscripts/ImageGalleryWidget.js?1"></script>	
+
  
-    
-    <link rel="stylesheet" href="../css/styles.css?a=b">
+ 	<link rel="stylesheet" href="../jscripts/SelectableTable.css" />
+	<script type="text/javascript" src="../jscripts/SelectableTableController.js?a=2"></script>	
+	<script type="text/javascript" src="../jscripts/SelectableTableWidget.js?a=1"></script>	
+	    
+    <s:include value="/css/styles.css" />
      
 </head>
 <body class="WebAppBody">
@@ -64,49 +68,43 @@
 		</s:else>
 	</div> 
 	
-	
+	<s:if test="#session.user">
 
 	<div id="LandingToolbar">			
 		<div class="scrollwrapper">
 			<div class="scroller">
 				<ul id="firstToolbar" data-role="mynavbar" >
 					<li>
-						<a href="../html/PoolWelcome.html" data-role="button" data-icon="home" data-iconpos="notext" data-inline="true" data-mini="true" rel="external"></a>
-						<a href="../html/PoolWelcome.html" rel="external">Bienvenido</a> 
+						<a href="../signed/EntityCreateInitialize.action" data-role="button" data-icon="start" data-iconpos="notext" data-inline="true" data-mini="true" rel="external"></a>
+						<a href="../signed/EntityCreateInitialize.action" rel="external">Create</a> 
 					</li>
 					<li>
-						<a href="../html/PoolPromotion.html" data-role="button" data-icon="tag" data-iconpos="notext" data-inline="true"  rel="external"></a>
-						<a href="../html/PoolPromotion.html" rel="external">Promociones</a> 
-					</li>					
+						<a id="EntityRemoveBtn" href="#" data-role="button" data-icon="delete" data-iconpos="notext" data-inline="true"  rel="external"></a>
+						<a id="EntityRemovelink" href="#" rel="external">Remove</a> 
+					</li>
 					<li>
-						<a href="../html/Images.html" data-role="button" data-icon="camera" data-iconpos="notext" data-inline="true" data-mini="true" rel="external"></a>
-						<a href="../html/Images.html" rel="external">Imagenes</a> 
+						<a id="EntityEditBtn" href="#" data-role="button" data-icon="edit" data-iconpos="notext" data-inline="true"  rel="external"></a>
+						<a id="EntityEditlink" href="#" rel="external">Edit</a> 
 					</li>					
-					<li>
-						<a href="../public/UserLoginInitialize.action" data-role="button" data-icon="user" data-iconpos="notext" data-inline="true" data-mini="true" rel="external"></a>
-						<a href="../public/UserLoginInitialize.action" >Login</a> 
-					</li>					
-					
+										
 			    </ul>
 			</div> 
 		</div> 
 	</div>	
 
 
-	List of Entities:
-				<h3> this is using the theme at ./themes/white.min.css </h3>
-				
-				<div ng-controller="EntityController as entityList">
-				  <span>Numero de entities:{{entityList.entities.length}}</span>
-				  
-					<div data-role="controlgroup">
-						<div ng-repeat="entity in entityList.entities track by entity.id">
-							<label for="{{entity.id}}">{{entity.name}} {{entity.id}}</label>
-						</div>	
-				    </div>
-				  
-				</div>
-		
+	My Entities:
+	<form>
+	  <input type="text" data-type="search" id="filterable-input">
+	</form>
+	<ul id="EntityList" data-filter="true" id="entityList" data-role="selectableTable"  data-input="#filterable-input" ng-controller="SelectableTableController" url='../signed/EntityList.action'>
+	  <li id="{{entity.entityID}}" ng-repeat="entity in data track by entity.entityID">
+	  	<a href="../html/PoolPromotion.html?entityID={{entity.entityID}}" data-role="button" data-icon="tag" data-iconpos="notext" data-inline="true"  rel="external"></a>
+	    {{entity.entityName}}
+	  </li>
+	</ul>		
+
+	</s:if>		
     
     </div><!-- content -->
 	<div class="WebAppFooter">
@@ -126,8 +124,18 @@
 <script>
 	$(document).ready(function () {
 	    //initialize swiper when document ready 
-
-    
+		$("#EntityRemoveBtn, #EntityRemovelink").click(function (e) {
+		    e.stopImmediatePropagation();
+		    e.preventDefault();
+		    var entityID = $("#EntityList").selectableTable("getSelectedID");
+		    location.replace('../signed/EntityDropInitialize.action?entityID=' + entityID );
+		});
+		$("#EntityEditBtn, #EntityEditlink").click(function (e) {
+		    e.stopImmediatePropagation();
+		    e.preventDefault();
+		    var entityID = $("#EntityList").selectableTable("getSelectedID");
+		    location.replace('../signed/EntityEditInitialize.action?entityID=' + entityID );
+		});    
 	 });    
 </script>
 </body>

@@ -29,10 +29,10 @@ public class BaseAction extends com.opensymphony.xwork2.ActionSupport implements
 
 
 	
-	public User getCurrentUser(String schema){
+	public User getCurrentUser(){
 		m_logger.debug("getCurrentUser called");
 		User user = null;
-		Object obj = session.get(schema + ".user");
+		Object obj = session.get("user");
 		if( null != obj && obj instanceof User){
 		 user = (User)obj;	
 		}

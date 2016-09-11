@@ -8,47 +8,46 @@ public class EntityDropAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 	private static Category m_logger = Logger.getLogger(EntityDropAction.class.getName());
 	
-	String schema;
-	String entityName;
+	long entityID;
 	Entity entity;
 
 	public Object getData(){
 		return entity;
 	}	
-	
-	public String getSchema() {
-		return schema;
+	public Entity getEntity(){
+		return entity;
 	}
 
-	public void setSchema(String schema) {
-		this.schema = schema;
+	public void setEntityID(long entityID) {
+		this.entityID = entityID;
 	}
-	
-
-
+	public long getEntityID(){
+		return entityID;
+	}
 	public String getEntityName() {
-		return entityName;
+		return entity.getEntityName();
 	}
-
-	public void setEntityName(String entityName) {
-		this.entityName = entityName;
+	
+	public String initialize(){
+		m_logger.debug("called EntityDropAction Initialize");
+		try {
+			
+			entity = EntityDAO.getByEntityID(entityID);
+		} catch (Exception e) {
+			m_logger.error("the exception Received:" + e);
+			addActionError(e.getMessage()); 
+			return ERROR;
+		}
+		return SUCCESS;
 	}
-
-	@Override
-	public void validate() {
-		super.validate();
-		if( schema == null || schema.isEmpty() ) addFieldError("schema", "schema.invalid");
-		if( entityName == null || entityName.isEmpty()) addFieldError("entityName","entity.invalidName");
-	}
-
-
 
 	public String execute() {
 		m_logger.debug("called EntityDropAction");
 		try {
-			entity = EntityDAO.getByEntityName(schema, entityName);
-			EntityDDL.Drop(schema, entityName);
-			EntityDAO.deleteByEntityName(schema, entityName);
+			
+			entity = EntityDAO.getByEntityID(entityID);
+			EntityDDL.Drop(Long.toString(getCurrentUser().getUserID()), entity.getEntityName());
+			EntityDAO.deleteByEntityID(entityID);;
 		} catch (Exception e) {
 			m_logger.error("the exception Received:" + e);
 			addActionError(e.getMessage()); 

@@ -4,26 +4,26 @@ import java.util.Date;
 
 
 public class Entity {
-	private int entityID;
-	private int parentEntityID;
+	private long entityID;
+	private long parentEntityID;
 	private String entityName;
 	private String label;
 	private String description;
-	private int isMultiple;
-	private int createdBy;
-	private int updatedBy;
+	private String isMultiple;
+	private long createdBy;
+	private long updatedBy;
 	private Date createDate;
 	private Date updateDate;
-	public int getEntityID() {
+	public long getEntityID() {
 		return entityID;
 	}
-	public void setEntityID(int entityID) {
+	public void setEntityID(long entityID) {
 		this.entityID = entityID;
 	}
-	public int getParentEntityID() {
+	public long getParentEntityID() {
 		return parentEntityID;
 	}
-	public void setParentEntityID(int parentEntityID) {
+	public void setParentEntityID(long parentEntityID) {
 		this.parentEntityID = parentEntityID;
 	}
 	public String getEntityName() {
@@ -44,22 +44,22 @@ public class Entity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getIsMultiple() {
+	public String getIsMultiple() {
 		return isMultiple;
 	}
-	public void setIsMultiple(int isMultiple) {
+	public void setIsMultiple(String isMultiple) {
 		this.isMultiple = isMultiple;
 	}
-	public int getCreatedBy() {
+	public long getCreatedBy() {
 		return createdBy;
 	}
-	public void setCreatedBy(int createdBy) {
+	public void setCreatedBy(long createdBy) {
 		this.createdBy = createdBy;
 	}
-	public int getUpdatedBy() {
+	public long getUpdatedBy() {
 		return updatedBy;
 	}
-	public void setUpdatedBy(int updatedBy) {
+	public void setUpdatedBy(long updatedBy) {
 		this.updatedBy = updatedBy;
 	}
 	public Date getCreateDate() {

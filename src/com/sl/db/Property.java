@@ -3,33 +3,31 @@ package com.sl.db;
 import java.util.Date;
 
 public class Property {
-	int propertyID;
-	int parentEntityID;
+	long propertyID;
+	long parentEntityID;
 	String propertyName;
 	String label;
-	int dataTypeID;
+	int datatypeID;
 	int size;
-	int isPk;
-	int createdBy; 
-	int updatedBy;
+	String isPk;
+	long createdBy; 
+	long updatedBy;
 	Date createDate;
 	Date updateDate;
 	
-	DataType dataType;
-
-	public int getPropertyID() {
+	public long getPropertyID() {
 		return propertyID;
 	}
 
-	public void setPropertyID(int propertyID) {
+	public void setPropertyID(long propertyID) {
 		this.propertyID = propertyID;
 	}
 
-	public int getParentEntityID() {
+	public long getParentEntityID() {
 		return parentEntityID;
 	}
 
-	public void setParentEntityID(int parentEntityID) {
+	public void setParentEntityID(long parentEntityID) {
 		this.parentEntityID = parentEntityID;
 	}
 
@@ -49,12 +47,12 @@ public class Property {
 		this.label = label;
 	}
 
-	public int getDataTypeID() {
-		return dataTypeID;
+	public int getDatatypeID() {
+		return datatypeID;
 	}
 
-	public void setDataTypeID(int dataTypeID) {
-		this.dataTypeID = dataTypeID;
+	public void setDatatypeID(int datatypeID) {
+		this.datatypeID = datatypeID;
 	}
 
 	public int getSize() {
@@ -65,27 +63,27 @@ public class Property {
 		this.size = size;
 	}
 
-	public int getIsPk() {
+	public String getIsPk() {
 		return isPk;
 	}
 
-	public void setIsPk(int isPk) {
+	public void setIsPk(String isPk) {
 		this.isPk = isPk;
 	}
 
-	public int getCreatedBy() {
+	public long getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(int createdBy) {
+	public void setCreatedBy(long createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	public int getUpdatedBy() {
+	public long getUpdatedBy() {
 		return updatedBy;
 	}
 
-	public void setUpdatedBy(int updatedBy) {
+	public void setUpdatedBy(long updatedBy) {
 		this.updatedBy = updatedBy;
 	}
 
@@ -104,13 +102,4 @@ public class Property {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-
-	public DataType getDataType() {
-		return dataType;
-	}
-
-	public void setDataType(DataType dataType) {
-		this.dataType = dataType;
-	}
-
 }

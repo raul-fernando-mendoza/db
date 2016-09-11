@@ -93,7 +93,7 @@
         
   </package>
 
-  <package name="signed" namespace="/" extends="struts-default">
+  <package name="signed" namespace="/signed" extends="struts-default">
   
 		<interceptors>
 			
@@ -144,12 +144,57 @@
             <result name="error">/WEB-INF/jsp/Error.jsp</result>
             <result>/WEB-INF/jsp/DataJSON.jsp</result>
         </action>         
-                
-       <!-- 
-        <action name="EntityInsert" class="com.sl.db.EntityInsertAction">
+
+        <action name="EntityDropInitialize" class="com.sl.db.EntityDropAction" method="initialize">
+        	<result name="success">/WEB-INF/jsp/EntityDrop.jsp</result>
+        </action>
+        <action name="EntityDrop" class="com.sl.db.EntityDropAction">
+            <result name="success" type="redirect">/public/Welcome.action</result>
+        </action>
+        
+        <action name="EntityCreateInitialize" class="com.sl.db.EntityCreateAction" method="initialize">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result >/WEB-INF/jsp/EntityCreate.jsp</result>
+        </action>
+        <action name="EntityCreate" class="com.sl.db.EntityCreateAction">
+            <result name="input">/WEB-INF/jsp/EntityCreate.jsp</result>
+            <result name="success" type="redirect">/public/Welcome.action</result>
+        </action>
+        <action name="EntityList" class="com.sl.db.EntityListAction">
             <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
             <result >/WEB-INF/jsp/DataJSON.jsp</result>
         </action>
+        <action name="EntityEditInitialize" class="com.sl.db.EntityEditAction" method="initialize">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result >/WEB-INF/jsp/EntityEdit.jsp</result>
+        </action>
+
+        <action name="PropertyList" class="com.sl.db.PropertyListAction">
+            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result >/WEB-INF/jsp/DataJSON.jsp</result>
+        </action>
+        <action name="PropertyCreateInitialize" class="com.sl.db.PropertyCreateAction" method="initialize">
+            <result >/WEB-INF/jsp/PropertyCreate.jsp</result>
+        </action>
+        <action name="PropertyCreate" class="com.sl.db.PropertyCreateAction">
+            <result name="success" type="redirectAction">
+				<param name="actionName">EntityEditInitialize</param>
+				<param name="entityID">${parentEntityID}</param>
+			</result>
+        </action>
+        <action name="PropertyDropInitialize" class="com.sl.db.PropertyDropAction" method="initialize">
+            <result >/WEB-INF/jsp/PropertyDrop.jsp</result>
+        </action>
+        <action name="PropertyDrop" class="com.sl.db.PropertyDropAction">
+            <result name="success" type="redirectAction">
+				<param name="actionName">EntityEditInitialize</param>
+				<param name="entityID">${property.parentEntityID}</param>
+			</result>
+        </action>
+
+        
+       <!-- 
+
         <action name="EntityUpdate" class="com.sl.db.EntityUpdateAction">
             <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
             <result >/WEB-INF/jsp/DataJSON.jsp</result>

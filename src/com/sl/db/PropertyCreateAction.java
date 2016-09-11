@@ -1,5 +1,6 @@
 package com.sl.db;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.apache.log4j.Category;
@@ -10,120 +11,95 @@ public class PropertyCreateAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 	private static Category m_logger = Logger.getLogger(PropertyCreateAction.class.getName());
 	
-	String schema;
-	String entityName;
+	int parentEntityID;
 	String propertyName;
-	String type;
 	String label;
+	int datatypeID;
 	int size;
-	int isUnique;
+	String isPk;
 	
-	Property property;
+	Entity parentEntity;
 	
-	public Property getData(){
-		return property;
+	public int getParentEntityID() {
+		return parentEntityID;
 	}
-	
-	public String getSchema() {
-		return schema;
+	public void setParentEntityID(int parentEntityID) {
+		this.parentEntityID = parentEntityID;
 	}
-
-	public void setSchema(String schema) {
-		this.schema = schema;
+	public Entity getParentEntity(){
+		return parentEntity;
 	}
-	
-
-	public String getEntityName() {
-		return entityName;
-	}
-
-	public void setEntityName(String entityName) {
-		this.entityName = entityName;
-	}
-
 	public String getPropertyName() {
 		return propertyName;
 	}
-
 	public void setPropertyName(String propertyName) {
 		this.propertyName = propertyName;
 	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
-	}
-
-	
-	
-	public int getIsUnique() {
-		return isUnique;
-	}
-
-	public void setIsUnique(int isUnique) {
-		this.isUnique = isUnique;
-	}
-
 	public String getLabel() {
 		return label;
 	}
-
 	public void setLabel(String label) {
 		this.label = label;
 	}
-
-	@Override
-	public void validate() {
-		super.validate();
-		m_logger.debug("validating");
-		
-		if( null == schema || schema.isEmpty() ) addFieldError("schema","schema.cannotBeEmpty");
-		
-		if( null == entityName || entityName.isEmpty() ) addFieldError("entityName","entity.cannotBeEmpty");
-		
-		if( null == propertyName || propertyName.isEmpty() ) addFieldError("propertyName","property.cannotBeEmpty");
-		
-		DataType dataType = null;
-		try {
-			dataType = DataTypeDAO.getByDataTypeName(schema, type);
-			m_logger.debug("dataType=" + dataType);
-		} catch (Exception e) {
-			m_logger.error(e);
-			addActionError(e.getMessage());
-		}
-		if( null == dataType ){
-			addFieldError("type","property.invalidDatatype");
-		}
+	public int getDatatypeID() {
+		return datatypeID;
 	}
+	public void setDatatypeID(int datatypeID) {
+		this.datatypeID = datatypeID;
+	}
+	public int getSize() {
+		return size;
+	}
+	public void setSize(int size) {
+		this.size = size;
+	}
+	public String getIsPk() {
+		return isPk;
+	}
+	public void setIsPk(String isPk) {
+		this.isPk = isPk;
+	}
+	public Collection<Datatype> getDatatypes(){
+		Collection<Datatype> datatypes = null;
+		try {
+			datatypes = DatatypeDAO.getListAll();
+		} catch (Exception e) {
+			m_logger.debug("can not read the datatypelist");
+			e.printStackTrace();
+		}
+		return datatypes;
+	}	
+
+	public String initialize(){
+		try {
+			parentEntity = EntityDAO.getByEntityID(parentEntityID);
+		} catch (Exception e) {
+			m_logger.debug("can not retrieve parent entity");
+			e.printStackTrace();
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+
 
 	public String execute() {
 		m_logger.debug("called PropertyCreateAction");
 		try {
-			Entity entity = EntityDAO.getByEntityName(schema, entityName);
-			property = new Property();
+			Entity parentEntity = EntityDAO.getByEntityID(parentEntityID);
+			Property property = new Property();
+			property.setParentEntityID(parentEntityID);
 			property.setPropertyName(propertyName);
-			property.setParentEntityID(entity.getEntityID());
-			property.setCreatedBy(getCurrentUser(schema).getUserID());
-			property.setUpdatedBy(getCurrentUser(schema).getUserID());
+			property.setLabel(label);
+			property.setDatatypeID(datatypeID);
+			property.setSize(size);
+			property.setIsPk(isPk);
+			property.setCreatedBy(getCurrentUser().getUserID());
+			property.setUpdatedBy(getCurrentUser().getUserID());
 			property.setCreateDate(new Date());
 			property.setUpdateDate(new Date());
-			property.setDataTypeID(DataTypeDAO.getByDataTypeName(schema, type).getDataTypeID());
-			property.setDataType(DataTypeDAO.getByDataTypeName(schema, type));
-			property.setSize(size);
-			property.setLabel(label);
-			PropertyDDL.Create(schema,  entityName, propertyName, type, size, isUnique);
-			PropertyDAO.create(schema, property);
+			Datatype dataType=DatatypeDAO.getByDatatypeID(datatypeID);
+			PropertyDDL.Create(Long.toString(getCurrentUser().getUserID()),  parentEntity.getEntityName(), propertyName, dataType.getDatatypeName(), size, isPk);
+			PropertyDAO.create(property);
 		} catch (Exception e) {
 			m_logger.error(e);
 			addActionError(e.getMessage()); 

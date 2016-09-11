@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 public class PropertyDDL extends DAOBase{
 	private static Logger m_logger = Logger.getLogger(PropertyDDL.class.getName());
 
-	public static void Create(String schema,String entityName,String propertyName,String dataTypeName,int size, int isUnique) throws Exception {
+	public static void Create(String schema,String entityName,String propertyName,String dataTypeName,int size, String isUnique) throws Exception {
 		PreparedStatement pstmt = null;
 		try {		
 			Connection conn = Database.getConnection();
@@ -22,7 +22,7 @@ public class PropertyDDL extends DAOBase{
 				qry += "(" + size + ")";
 			};
 			
-			if( isUnique != 0 ){
+			if( "Y".equals(isUnique)  ){
 				qry += " NOT NULL, ADD UNIQUE INDEX " + schema  + entityName + propertyName +  "_UQ (" + propertyName + " ASC)";
 			};
 			

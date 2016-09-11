@@ -33,14 +33,7 @@ public class LoginInterceptor extends AbstractInterceptor {
 
 	    HttpSession session =  request.getSession (true);
 
-	    // Is there a "user" object stored in the user's HttpSession?
-	    String schema = request.getParameter("schema");
-	    if (null == schema || schema.isEmpty() ){
-	    	m_logger.error("no schema in parameters");
-	    	return "LoginError";
-	    }
-	    
-	    Object user = session.getAttribute (schema + ".user");
+	    Object user = session.getAttribute ("user");
 	    
 	    if (user != null) {
 	    	m_logger.debug("the user is logged");
