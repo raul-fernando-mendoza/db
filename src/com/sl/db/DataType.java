@@ -1,18 +1,58 @@
 package com.sl.db;
 
-public class DataType {
-		int dataTypeID;
-		String dataTypeName;
-		public int getDataTypeID() {
-			return dataTypeID;
+import java.util.Date;
+
+public class Datatype {
+		private int datatypeID;
+		private String datatypeName;
+		private String label;
+		private long createdBy;
+		private long updatedBy;
+		private Date createDate;
+		private Date updateDate;
+		public int getDatatypeID() {
+			return datatypeID;
 		}
-		public void setDataTypeID(int dataTypeID) {
-			this.dataTypeID = dataTypeID;
+		public void setDatatypeID(int dataTypeID) {
+			this.datatypeID = dataTypeID;
 		}
-		public String getDataTypeName() {
-			return dataTypeName;
+		public String getDatatypeName() {
+			return datatypeName;
 		}
-		public void setDataTypeName(String dataTypeName) {
-			this.dataTypeName = dataTypeName;
+		public void setDatatypeName(String dataTypeName) {
+			this.datatypeName = dataTypeName;
 		}
+		public String getLabel() {
+			return label;
+		}
+		public void setLabel(String label) {
+			this.label = label;
+		}
+		public long getCreatedBy() {
+			return createdBy;
+		}
+		public void setCreatedBy(long createdBy) {
+			this.createdBy = createdBy;
+		}
+		public long getUpdatedBy() {
+			return updatedBy;
+		}
+		public void setUpdatedBy(long updatedBy) {
+			this.updatedBy = updatedBy;
+		}
+		public Date getCreateDate() {
+			return createDate;
+		}
+		public void setCreateDate(Date createDate) {
+			this.createDate = createDate;
+		}
+		public Date getUpdateDate() {
+			return updateDate;
+		}
+		public void setUpdateDate(Date updateDate) {
+			this.updateDate = updateDate;
+		}
+		
+
+		
 }
