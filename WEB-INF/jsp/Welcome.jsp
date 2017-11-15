@@ -97,10 +97,10 @@
 	<form>
 	  <input type="text" data-type="search" id="filterable-input">
 	</form>
-	<ul id="EntityList" data-filter="true" id="entityList" data-role="selectableTable"  data-input="#filterable-input" ng-controller="SelectableTableController" url='../signed/EntityList.action'>
+	<ul id="EntityList" data-filter="true" id="entityList" data-role="selectableTable"  data-input="#filterable-input" ng-controller="SelectableTableController" url='../signed/EntityListJSON.action'>
 	  <li id="{{entity.entityID}}" ng-repeat="entity in data track by entity.entityID">
-	  	<a href="../html/PoolPromotion.html?entityID={{entity.entityID}}" data-role="button" data-icon="tag" data-iconpos="notext" data-inline="true"  rel="external"></a>
-	    {{entity.entityName}}
+	  	<a href="#" data-role="button" data-icon="tag" data-iconpos="notext" data-inline="true"  rel="external"></a>
+	    <a id="EntityEditlink" href="../signed/DataList.action?entityID={{entity.entityID}}" rel="external">{{entity.entityName}}</a>
 	  </li>
 	</ul>		
 

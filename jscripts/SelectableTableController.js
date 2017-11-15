@@ -31,13 +31,13 @@ angular.module('dbModule', [])
       $scope.fetch = function() {
         $scope.code = null;
         $scope.response = null;
-        if (window.console) console.log('EntityController request from data' + $scope.url);
+        if (window.console) console.log('SelectableController request from data' + $scope.url);
 
         $http({method: $scope.method, url: $scope.url, cache: $templateCache}).
           then(function(response) {
             $scope.status = response.status;
             $scope.data =  response.data;
-            if (window.console) console.log('EntityController changed data');
+            if (window.console) console.log('SelectableController changed data');
             window.setTimeout(function () {
             	$('#' + $scope.attrs.id).selectableTable("refresh");
              }, 100)
@@ -50,6 +50,10 @@ angular.module('dbModule', [])
       $scope.updateModel = function(method, url) {
         $scope.method = method;
         $scope.url = url;
+      };
+      
+      $scope.add = function(){
+    	  if (window.console) console.log('Adding Record');  
       };
       
       $scope.fetch();

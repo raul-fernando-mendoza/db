@@ -89,3 +89,9 @@ commit;
 select * from db.datatype;
 
 commit;
+
+insert into db.1$house(city) values('monterrey');}
+insert into db.1$house(city) values('aguascalientes');
+commit;
+
+select * from db.1$house;

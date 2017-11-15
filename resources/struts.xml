@@ -60,7 +60,7 @@
         </action>
         
 
-        <action name="DataRead" class="com.sl.db.DataReadAction">
+        <action name="DataRead" class="com.sl.db.DataListAction">
         	<param name="Schema">{1}</param>
         	<param name="EntityName">{2}</param>
             <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
@@ -81,12 +81,12 @@
         </action>    
 
 
-        <action name="{schema}/{entityName}/{id}" class="com.sl.db.DataReadAction">
+        <action name="{schema}/{entityName}/{id}" class="com.sl.db.DataListAction">
             <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
             <result>/WEB-INF/jsp/DataJSON.jsp</result>
         </action>      
 
-        <action name="{schema}/{entityName}" class="com.sl.db.DataReadAction">
+        <action name="{schema}/{entityName}" class="com.sl.db.DataListAction">
             <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
             <result>/WEB-INF/jsp/DataJSON.jsp</result>
         </action>  
@@ -161,16 +161,18 @@
             <result name="success" type="redirect">/public/Welcome.action</result>
         </action>
         <action name="EntityList" class="com.sl.db.EntityListAction">
-            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+            <result >/WEB-INF/jsp/EntityList.jsp</result>
+        </action>
+        <action name="EntityListJSON" class="com.sl.db.EntityListAction">
             <result >/WEB-INF/jsp/DataJSON.jsp</result>
         </action>
+        
         <action name="EntityEditInitialize" class="com.sl.db.EntityEditAction" method="initialize">
             <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
             <result >/WEB-INF/jsp/EntityEdit.jsp</result>
         </action>
 
-        <action name="PropertyList" class="com.sl.db.PropertyListAction">
-            <result name="error">/WEB-INF/jsp/ErrorJSON.jsp</result>
+        <action name="PropertyListJSON" class="com.sl.db.PropertyListAction">
             <result >/WEB-INF/jsp/DataJSON.jsp</result>
         </action>
         <action name="PropertyCreateInitialize" class="com.sl.db.PropertyCreateAction" method="initialize">
@@ -190,6 +192,12 @@
 				<param name="actionName">EntityEditInitialize</param>
 				<param name="entityID">${property.parentEntityID}</param>
 			</result>
+        </action>
+        <action name="DataList" class="com.sl.db.DataListAction">
+            <result >/WEB-INF/jsp/DataList.jsp</result>
+        </action>
+        <action name="DataListJSON" class="com.sl.db.DataListAction">
+            <result >/WEB-INF/jsp/DataJSON.jsp</result>
         </action>
 
         

@@ -97,7 +97,7 @@
 	<form>
 	  <input type="text" data-type="search" id="filterable-input">
 	</form>
-	<ul id="PropertyList" data-filter="true" id="propertyList" data-role="selectableTable"  data-input="#filterable-input" ng-controller="SelectableTableController" url='../signed/PropertyList.action?entityID=<s:property value="entityID"/>'>
+	<ul id="PropertyList" data-filter="true" id="propertyList" data-role="selectableTable"  data-input="#filterable-input" ng-controller="SelectableTableController" url='../signed/PropertyListJSON.action?entityID=<s:property value="entityID"/>'>
 	  <li id="{{property.propertyID}}" ng-repeat="property in data track by property.propertyID">
 	  	<a id="" href="#" data-role="button" data-icon="tag" data-iconpos="notext" data-inline="true"  rel="external"></a>
 	    {{property.propertyName}}

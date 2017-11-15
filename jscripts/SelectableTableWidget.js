@@ -10,10 +10,10 @@ $.widget( "mobile.selectableTable", {
 		$myTable.addClass("selectable");
 
 
-		$myTable.find("li").on("click", function(event){
-			
+		$myTable.find("li, tr").on("click", function(event){
 			$(this).siblings().removeClass("ui-selected");
 			$(this).addClass("ui-selected");
+			selectedID = $(this).attr('id');
 		});
 		
 		var mytableid = $myTable.attr("id");
@@ -30,7 +30,7 @@ $.widget( "mobile.selectableTable", {
     ,_update: function() {
 		if (window.console) console.log('selectableTable._update');
 		$myTable.enhanceWithin();
-		$myTable.find("li").on("click", function(event){
+		$myTable.find("li, tr").on("click", function(event){
 			if (window.console) console.log('selectableTable selected:' + $(this).attr('id'));
 			$(this).siblings().removeClass("ui-selected");
 			$(this).addClass("ui-selected");
